@@ -129,14 +129,14 @@ export const useGameStore = defineStore('game', () => {
     })
   }
 
-  const getAllCurrentScenes = () => {
+  const allCurrentScenes = computed(() => {
     // Find all scenes that are accessible with the current game state
     const currentScene = getSceneById(currentSceneId.value || state.value.initialScene)
     if (!currentScene) {
       return []
     }
     return [currentScene, ...getSceneChildren(currentScene)]
-  }
+  });
 
   const createRandomSceneId = () => {
     while (true) {
@@ -219,7 +219,7 @@ export const useGameStore = defineStore('game', () => {
     resetGameState,
     goToScene,
     performAction,
-    getAllCurrentScenes,
+    allCurrentScenes,
     createScene,
     deleteScene,
     setSceneValue,
