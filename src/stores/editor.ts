@@ -28,6 +28,11 @@ export interface EditorState {
     zoom: number
 }
 
+
+import type { Scene } from './game';
+export interface SceneWithMeta extends Scene, EditorSceneState {}
+
+
 export const useEditorStore = defineStore('editor', () => {
     const state = ref<EditorState>({
         scenes: {},
@@ -36,6 +41,14 @@ export const useEditorStore = defineStore('editor', () => {
     })
 
     const moveScene = (sceneId: SceneId, x: number, y: number) => {
+        if (!state.value.scenes[sceneId]) {
+            state.value.scenes[sceneId] = {
+                id: sceneId,
+                x,
+                y,
+            }
+            return
+        }
         state.value.scenes[sceneId].x = x
         state.value.scenes[sceneId].y = y
     }

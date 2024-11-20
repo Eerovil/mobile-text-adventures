@@ -3,21 +3,17 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ref, useTemplateRef, computed, onMounted } from 'vue';
 
-import { useGameStore } from '../stores/game.ts';
-import { useEditorStore } from '../stores/editor.ts';
+import { useGameStore, type SceneId } from '../stores/game';
+import { useEditorStore } from '../stores/editor';
+import type { SceneWithMeta } from '../stores/editor';
 
 import EditableScene from './editor/EditableScene.vue';
-
-// This interface contains all keys from Scene and EditorSceneState
-import { EditorSceneState } from '../stores/editor.ts';
-import { Scene } from '../stores/game.ts';
-interface SceneWithMeta extends Scene, EditorSceneState {}
 
 const gameStore = useGameStore();
 const editorStore = useEditorStore();
 
 const currentScenesWithMeta = computed(() => {
-  const ret = {};
+  const ret: Record<SceneId, SceneWithMeta> = {};
   for (const scene of gameStore.allCurrentScenes) {
     ret[scene.id] = {
       ...scene,
@@ -27,17 +23,21 @@ const currentScenesWithMeta = computed(() => {
   return ret;
 })
 
-const createScene = () => {
+const createScene = (x: number, y: number) => {
   console.log('Creating scene');
-  console.log(gameStore.createScene());
+  const scene = gameStore.createScene();
+  editorStore.moveScene(scene.id, x, y);
 }
 
 const editorRef = useTemplateRef('editor');
 onMounted(() => {
   // When right clicking on background, create a new scene
+  if (!editorRef.value) {
+    throw new Error('Editor ref not found');
+  }
   editorRef.value.addEventListener('contextmenu', (e) => {
     e.preventDefault();
-    createScene();
+    createScene(e.offsetX, e.offsetY);
   });
 })
 
@@ -49,7 +49,7 @@ onMounted(() => {
   </header>
 
   <main ref="editor" id="editor">
-    <EditableScene v-for="scene in currentScenesWithMeta" :key="scene.id" />
+    <EditableScene v-for="scene in currentScenesWithMeta" :key="scene.id" :scene-with-meta="scene" />
   </main>
 </template>
 

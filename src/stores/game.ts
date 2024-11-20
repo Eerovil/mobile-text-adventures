@@ -130,12 +130,21 @@ export const useGameStore = defineStore('game', () => {
   }
 
   const allCurrentScenes = computed(() => {
+    const ret: Scene[] = [];
+    // Add all scenes that are not connected to any scene
+    const allSceneIds = new Set(Object.keys(state.value.scenes).map(id => id as SceneId))
+    for (const scene of Object.values(state.value.scenes)) {
+      for (const action of scene.actions.filter(action => !!action.nextScene)) {
+        allSceneIds.delete(action.nextScene as SceneId)
+      }
+    }
+    ret.push(...Array.from(allSceneIds).map(id => state.value.scenes[id]))
     // Find all scenes that are accessible with the current game state
     const currentScene = getSceneById(currentSceneId.value || state.value.initialScene)
     if (!currentScene) {
-      return []
+      return ret;
     }
-    return [currentScene, ...getSceneChildren(currentScene)]
+    return [currentScene, ...ret, ...getSceneChildren(currentScene)]
   });
 
   const createRandomSceneId = () => {
