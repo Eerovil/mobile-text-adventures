@@ -6,11 +6,15 @@ import Editor from './components/Editor.vue';
   <header>
   </header>
 
-  <main>
+  <main id="app-main">
     <Editor />
   </main>
 </template>
 
-<style scoped>
-
+<style>
+#app, #app-main {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
 </style>

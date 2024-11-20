@@ -155,6 +155,9 @@ export const useGameStore = defineStore('game', () => {
       evolutions: {}
     }
     state.value.scenes[newScene.id] = newScene
+    if (!currentSceneId.value) {
+      currentSceneId.value = newScene.id
+    }
     return newScene
   }
 
