@@ -4,16 +4,16 @@ import { defineStore } from 'pinia'
 
 // Create type SceneId which is a string
 export type SceneId = string & { __brand: 'SceneId' };
-export type GameStateSlug = string & { __brand: 'GameStateSlug' };
+export type GameProgressionSlug = string & { __brand: 'GameProgressionSlug' };
 
 // The game state is just a list of slugs which have happened in the game
-export type GameStateList = GameStateSlug[]
+export type GameStateList = GameProgressionSlug[]
 
 
 export interface Action {
   title: string
   description?: string
-  gameProgression?: GameStateSlug
+  gameProgression?: GameProgressionSlug
   nextScene: SceneId | undefined
 }
 
@@ -25,7 +25,7 @@ export interface Scene {
   actions: Action[]
   evolutions: {
     // When game state contains the key, the scene will redirect to the value
-    [key: GameStateSlug]: SceneId
+    [key: GameProgressionSlug]: SceneId
   }
 }
 
@@ -38,23 +38,23 @@ export interface GameData {
   scenes: {
     [key: SceneId]: Scene
   },
-  gameStates?: GameStateSlug[]
+  gameProgressions?: GameProgressionSlug[]
 }
 
 export const useGameStore = defineStore('game', () => {
-  const gameData = ref<GameData>({
+  const state = ref<GameData>({
     scenes: {},
   })
 
   const currentSceneId = ref<SceneId | undefined>(undefined)
-  const gameState = ref<GameStateList>([])
-  const currentScene = computed(() => currentSceneId.value ? gameData.value.scenes[currentSceneId.value] : undefined)
+  const gameProgression = ref<GameStateList>([])
+  const currentScene = computed(() => currentSceneId.value ? state.value.scenes[currentSceneId.value] : undefined)
 
   // Load game state from local storage
   const loadGameState = () => {
     const state = localStorage.getItem('game-state')
     if (state) {
-      gameState.value = JSON.parse(state)
+      gameProgression.value = JSON.parse(state)
     }
     const state2 = localStorage.getItem('current-scene') as SceneId | null
     if (state2) {
@@ -65,22 +65,22 @@ export const useGameStore = defineStore('game', () => {
   // Load the game data from a JSON file
   const loadGameData = async (url: string) => {
     const response = await fetch(url)
-    gameData.value = await response.json()
+    state.value = await response.json()
     if (!currentSceneId.value) {
-      currentSceneId.value = gameData.value.initialScene
+      currentSceneId.value = state.value.initialScene
     }
   }
 
   // Save game state to local storage
   const saveGameState = () => {
-    localStorage.setItem('game-state', JSON.stringify(gameState.value))
+    localStorage.setItem('game-state', JSON.stringify(gameProgression.value))
     localStorage.setItem('current-scene', currentSceneId.value || '')
   }
 
   // Reset the game state
   const resetGameState = () => {
-    gameState.value = []
-    currentSceneId.value = gameData.value.initialScene
+    gameProgression.value = []
+    currentSceneId.value = state.value.initialScene
   }
 
   // Go to a scene by its ID
@@ -88,10 +88,10 @@ export const useGameStore = defineStore('game', () => {
     if (!sceneId) {
       return undefined
     }
-    const newScene = gameData.value.scenes[sceneId]
+    const newScene = state.value.scenes[sceneId]
     // Check if the scene has an evolution based on the game state
     if (newScene.evolutions) {
-      for (const key of gameState.value) {
+      for (const key of gameProgression.value) {
         if (newScene.evolutions[key]) {
           return getSceneById(newScene.evolutions[key])
         }
@@ -107,7 +107,7 @@ export const useGameStore = defineStore('game', () => {
 
   const performAction = (action: Action) => {
     if (action.gameProgression) {
-      gameState.value.push(action.gameProgression)
+      gameProgression.value.push(action.gameProgression)
     }
     if (!action.nextScene) {
       alert('Action does not have a next scene')
@@ -131,7 +131,7 @@ export const useGameStore = defineStore('game', () => {
 
   const getAllCurrentScenes = () => {
     // Find all scenes that are accessible with the current game state
-    const currentScene = getSceneById(currentSceneId.value || gameData.value.initialScene)
+    const currentScene = getSceneById(currentSceneId.value || state.value.initialScene)
     if (!currentScene) {
       return []
     }
@@ -141,7 +141,7 @@ export const useGameStore = defineStore('game', () => {
   const createRandomSceneId = () => {
     while (true) {
       const id = Math.random().toString(36).substr(2, 9) as SceneId
-      if (!gameData.value.scenes[id]) {
+      if (!state.value.scenes[id]) {
         return id
       }
     }
@@ -154,21 +154,21 @@ export const useGameStore = defineStore('game', () => {
       actions: [],
       evolutions: {}
     }
-    gameData.value.scenes[newScene.id] = newScene
+    state.value.scenes[newScene.id] = newScene
     return newScene
   }
 
   const deleteScene = (scene: Scene) => {
-    delete gameData.value.scenes[scene.id]
-    for (const otherScene of Object.values(gameData.value.scenes)) {
+    delete state.value.scenes[scene.id]
+    for (const otherScene of Object.values(state.value.scenes)) {
       for (const action of otherScene.actions) {
         if (action.nextScene === scene.id) {
           action.nextScene = undefined
         }
       }
       for (const key of Object.keys(otherScene.evolutions)) {
-        if (otherScene.evolutions[key as GameStateSlug] === scene.id) {
-          delete otherScene.evolutions[key as GameStateSlug]
+        if (otherScene.evolutions[key as GameProgressionSlug] === scene.id) {
+          delete otherScene.evolutions[key as GameProgressionSlug]
         }
       }
     }
@@ -201,7 +201,7 @@ export const useGameStore = defineStore('game', () => {
   }
 
   const setActionValue = (action: Action, key: 'gameProgression' | 'title' | 'description', value: unknown) => {
-    action[key] = value as string & { __brand: 'GameStateSlug' }
+    action[key] = value as string & { __brand: 'GameProgressionSlug' }
   }
 
   const disconnectAction = (action: Action) => {
@@ -209,9 +209,9 @@ export const useGameStore = defineStore('game', () => {
   }
 
   return {
-    gameData,
+    state,
     currentSceneId,
-    gameState,
+    gameProgression,
     currentScene,
     loadGameState,
     loadGameData,
