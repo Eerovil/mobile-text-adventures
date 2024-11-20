@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Editor from './components/Editor.vue';
+import { ref } from 'vue';
 </script>
 
 <template>
@@ -10,7 +10,3 @@ import Editor from './components/Editor.vue';
     <Editor />
   </main>
 </template>
-
-<style scoped>
-
-</style>
