@@ -7,12 +7,16 @@ import { computed, ref } from 'vue'
 export interface PanzoomState {
     currentScale: number
     panzoom: PanzoomObject | null
+    editorDataLoaded: boolean
+    gameDataLoaded: boolean
 }
 
 export const usePanzoomStore = defineStore('panzoom', () => {
     const state = ref<PanzoomState>({
         currentScale: 1,
         panzoom: null,
+        editorDataLoaded: false,
+        gameDataLoaded: false,
     })
 
     const zoomWithWheel = (event: WheelEvent) => {
@@ -29,10 +33,28 @@ export const usePanzoomStore = defineStore('panzoom', () => {
 
     const getScale = computed(() => state.value.currentScale)
 
+    const setEditorDataLoaded = () => {
+        state.value.editorDataLoaded = true
+    }
+    const setGameDataLoaded = () => {
+        state.value.gameDataLoaded = true
+    }
+    const allDataLoaded = new Promise<void>((resolve) => {
+        const interval = setInterval(() => {
+            if (state.value.editorDataLoaded && state.value.gameDataLoaded) {
+                clearInterval(interval)
+                resolve()
+            }
+        }, 100)
+    });
+
     return {
         state,
         zoomWithWheel,
         getScale,
         setPanzoom,
+        setEditorDataLoaded,
+        setGameDataLoaded,
+        allDataLoaded,
     }
 })

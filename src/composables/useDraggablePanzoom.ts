@@ -3,10 +3,11 @@ import Panzoom from '@panzoom/panzoom';
 import type { PanzoomObject } from '@panzoom/panzoom';
 
 import { usePanzoomStore } from '@/stores/panzoom';
-import type { EditorDraggableElement } from '@/stores/editor';
+import { useEditorStore, type EditorDraggableElement } from '@/stores/editor';
 
 export function useDraggablePanzoom(intialDraggableElement: EditorDraggableElement, draggableElementRef: Ref<HTMLElement | null>) {
   const panzoomStore = usePanzoomStore();
+  const editorStore = useEditorStore();
   // intialDraggableElement is used to load initial x, y
 
   let panzoom2: PanzoomObject | null = null;
@@ -33,14 +34,15 @@ export function useDraggablePanzoom(intialDraggableElement: EditorDraggableEleme
       excludeClass: 'not-draggable',
     });
 
-    const initialX = intialDraggableElement.x || 50;
-    const initialY = intialDraggableElement.y || 50;
-
-    setTimeout(() => {
-        if (!panzoom2) return;
-        console.log('initialX', initialX, 'initialY', initialY);
-        panzoom2.pan(initialX, initialY);
-    }, 0);
+    panzoomStore.allDataLoaded.then(() => {
+      if (!panzoom2) {
+        throw new Error('Panzoom not found');
+      }
+      const initialX = intialDraggableElement.x || 50;
+      const initialY = intialDraggableElement.y || 50;
+      console.log('initialX', initialX, 'initialY', initialY);
+      panzoom2.pan(initialX, initialY);
+    });
 
     function adjustScale(oldScale: number, newScale: number) {
       if (!panzoom2) return;
@@ -63,6 +65,25 @@ export function useDraggablePanzoom(intialDraggableElement: EditorDraggableEleme
     child.addEventListener('contextmenu', (event) => {
       event.stopPropagation();
     });
+
+    // watch for changes is panzoom2 pan
+    setTimeout(() => {
+      child.addEventListener('panzoomend', () => {
+        if (!panzoom2) {
+          throw new Error('Panzoom not found');
+        }
+        console.log('panzoom2.getPan()', panzoom2.getPan());
+        const { x, y } = panzoom2.getPan();
+        const oldScale = 1;
+        const newScale = panzoomStore.getScale;
+        // (scaledX / oldScale) * newScale = x
+        // scaledX / oldScale = x / newScale
+        // scaledX = (x / newScale) * oldScale
+        const scaledX = (x / newScale) * oldScale;
+        const scaledY = (y / newScale) * oldScale;
+        editorStore.moveDraggableElement(intialDraggableElement.id, Math.floor(scaledX), Math.floor(scaledY));
+      });
+    }, 10)
   });
 
   return {

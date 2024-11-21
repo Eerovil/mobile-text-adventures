@@ -1,12 +1,9 @@
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { defineStore } from 'pinia'
 import type { SceneId } from './game'
 
-
-export type TextBoxId = string & { __brand: 'TextBoxId' }
-
-
 export interface EditorDraggableElement {
+    id: SceneId
     x: number
     y: number
     width?: number
@@ -15,27 +12,24 @@ export interface EditorDraggableElement {
 
 
 export interface EditorTextBox extends EditorDraggableElement {
-    id: TextBoxId
     text: string
-}
-
-export interface EditorSceneState extends EditorDraggableElement {
-    id: SceneId
 }
 
 export interface EditorState {
     scenes: {
-        [key: SceneId]: EditorSceneState
+        [key: SceneId]: EditorDraggableElement
     },
     textboxes: {
-        [key: TextBoxId]: EditorTextBox
+        [key: SceneId]: EditorTextBox
     }
     zoom: number
 }
 
 
 import type { Scene } from './game';
-export interface SceneWithMeta extends Scene, EditorSceneState {}
+import { useJsonSaver } from '@/composables/useJsonSaver'
+import { usePanzoomStore } from './panzoom'
+export interface SceneWithMeta extends Scene, EditorDraggableElement { }
 
 
 export const useEditorStore = defineStore('editor', () => {
@@ -43,7 +37,18 @@ export const useEditorStore = defineStore('editor', () => {
         scenes: {},
         textboxes: {},
         zoom: 1,
-    })
+    });
+    const jsonSaver = useJsonSaver();
+    jsonSaver.loadJsonFromDisk('editor-state.json').then((jsonFromDisk) => {
+        console.log('jsonFromDisk', jsonFromDisk)
+        if (jsonFromDisk) {
+            state.value = jsonFromDisk
+        }
+        const panzoomStore = usePanzoomStore();
+        setTimeout(() => {
+            panzoomStore.setEditorDataLoaded();
+        }, 10);
+    });
 
     const moveScene = (sceneId: SceneId, x: number, y: number) => {
         if (!state.value.scenes[sceneId]) {
@@ -60,7 +65,7 @@ export const useEditorStore = defineStore('editor', () => {
 
     const createTextBox = (x: number, y: number) => {
         while (true) {
-            const id = Math.random().toString(36).substring(7) as TextBoxId
+            const id = Math.random().toString(36).substring(7) as SceneId
             if (!state.value.textboxes[id]) {
                 state.value.textboxes[id] = {
                     id,
@@ -74,20 +79,32 @@ export const useEditorStore = defineStore('editor', () => {
         }
     }
 
-    const updateTextBox = (id: TextBoxId, text: string) => {
+    const updateTextBox = (id: SceneId, text: string) => {
         state.value.textboxes[id].text = text
     }
 
-    const moveTextBox = (id: TextBoxId, x: number, y: number) => {
-        state.value.textboxes[id].x = x
-        state.value.textboxes[id].y = y
+    const moveDraggableElement = (id: SceneId, x: number, y: number) => {
+        const correctObj = state.value.scenes[id] || state.value.textboxes[id];
+        if (!correctObj) {
+            return
+        }
+        correctObj.x = x
+        correctObj.y = y
     }
+
+    // Watch for changes in the editor state and save to disk
+    watch(state, () => {
+        console.log('Saving editor state to disk')
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { zoom, ...editorState } = state.value
+        jsonSaver.saveJsonToDisk(editorState, 'editor-state.json')
+    }, { deep: true })
 
     return {
         state,
         moveScene,
         createTextBox,
         updateTextBox,
-        moveTextBox,
+        moveDraggableElement,
     }
 });

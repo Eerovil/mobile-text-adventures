@@ -20,6 +20,9 @@ const editorStore = useEditorStore();
 const currentScenesWithMeta = computed(() => {
   const ret: Record<SceneId, SceneWithMeta> = {};
   for (const scene of gameStore.allCurrentScenes) {
+    if (!editorStore.state.scenes[scene.id]) {
+      continue;
+    }
     ret[scene.id] = {
       ...scene,
       ...editorStore.state.scenes[scene.id],
@@ -35,7 +38,7 @@ const createScene = (x: number, y: number) => {
   const scaledY = (y / oldScale) * currentScale;
   console.log('Creating scene');
   const scene = gameStore.createScene();
-  editorStore.moveScene(scene.id, scaledX, scaledY);
+  editorStore.moveScene(scene.id, Math.floor(scaledX), Math.floor(scaledY));
 }
 
 const editorRef = useTemplateRef('editor');
@@ -65,8 +68,17 @@ onMounted(() => {
   // This demo binds to shift + wheel
   parent.addEventListener('wheel', function (event) {
     if (!event.shiftKey) return
+    console.log('wheel', event)
     panzoomStore.zoomWithWheel(event)
   })
+
+  // Add event listener for tab key
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Tab') {
+      console.log('Tab pressed');
+      event.preventDefault();
+    }
+  });
 })
 
 </script>

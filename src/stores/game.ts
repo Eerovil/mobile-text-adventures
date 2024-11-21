@@ -1,5 +1,7 @@
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { defineStore } from 'pinia'
+import { useJsonSaver } from '@/composables/useJsonSaver';
+import { usePanzoomStore } from './panzoom';
 
 
 // Create type SceneId which is a string
@@ -44,7 +46,20 @@ export interface GameData {
 export const useGameStore = defineStore('game', () => {
   const state = ref<GameData>({
     scenes: {},
-  })
+  });
+  const jsonSaver = useJsonSaver();
+  jsonSaver.loadJsonFromDisk('game.json').then((jsonFromDisk) => {
+    console.log('jsonFromDisk', jsonFromDisk)
+    if (jsonFromDisk) {
+      console.log('setting jsonFromDisk', jsonFromDisk)
+      state.value = jsonFromDisk
+    }
+    console.log('state', state.value.scenes);
+    const panzoomStore = usePanzoomStore();
+    setTimeout(() => {
+      panzoomStore.setGameDataLoaded();
+    }, 10);
+  });
 
   const currentSceneId = ref<SceneId | undefined>(undefined)
   const gameProgression = ref<GameStateList>([])
@@ -221,6 +236,10 @@ export const useGameStore = defineStore('game', () => {
   const disconnectAction = (action: Action) => {
     action.nextScene = undefined
   }
+
+  watch(state, () => {
+    jsonSaver.saveJsonToDisk(state.value, 'game.json')
+  }, { deep: true })
 
   return {
     state,
