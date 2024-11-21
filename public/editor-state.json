@@ -1,34 +1,9 @@
 {
   "scenes": {
-    "sst2rjfg2": {
-      "id": "sst2rjfg2",
-      "x": 691,
-      "y": 210,
-      "actionPositions": [
-        {
-          "x": 89,
-          "y": 442
-        },
-        {
-          "x": 249,
-          "y": 442
-        },
-        {
-          "x": 409,
-          "y": 442
-        }
-      ]
-    },
-    "j33wnouft": {
-      "id": "j33wnouft",
-      "x": 418727,
-      "y": 2470009,
-      "actionPositions": []
-    },
-    "6nxl6cqad": {
-      "id": "6nxl6cqad",
-      "x": 2489,
-      "y": 556,
+    "yaivvpctg": {
+      "id": "yaivvpctg",
+      "x": 414,
+      "y": 75,
       "actionPositions": [
         {
           "x": 201,
@@ -36,10 +11,16 @@
         }
       ]
     },
-    "a4ob8s7x2": {
-      "id": "a4ob8s7x2",
-      "x": 416739,
-      "y": 310150,
+    "408ros518": {
+      "id": "408ros518",
+      "x": 328,
+      "y": 600,
+      "actionPositions": []
+    },
+    "m8dvmv39c": {
+      "id": "m8dvmv39c",
+      "x": 1034,
+      "y": 127,
       "actionPositions": []
     }
   },
