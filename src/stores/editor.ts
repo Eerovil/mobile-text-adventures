@@ -28,6 +28,7 @@ export interface EditorState {
 import type { Scene } from './game';
 import { useJsonSaver } from '@/composables/useJsonSaver'
 import { usePanzoomStore } from './panzoom'
+import { useConnectionStore } from './connections'
 export interface SceneWithMeta extends Scene, EditorDraggableElement { }
 
 
@@ -82,6 +83,8 @@ export const useEditorStore = defineStore('editor', () => {
         state.value.textboxes[id].text = text
     }
 
+    const connectionStore = useConnectionStore();
+
     const moveDraggableElement = (id: SceneId, x: number, y: number) => {
         const correctObj = state.value.scenes[id] || state.value.textboxes[id];
         if (!correctObj) {
@@ -89,12 +92,14 @@ export const useEditorStore = defineStore('editor', () => {
         }
         correctObj.x = x
         correctObj.y = y
+        connectionStore.setSceneCoordinates(id, x, y);
     }
 
     const watchForChanges = () => {
         // Watch for changes in the editor state and save to disk
         watch(state, () => {
             console.log('Saving editor state to disk')
+            // Send update to connectionStore
             jsonSaver.saveJsonToDisk(state.value, 'editor-state.json')
         }, { deep: true })
     }

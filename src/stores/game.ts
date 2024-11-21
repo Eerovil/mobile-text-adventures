@@ -208,16 +208,18 @@ export const useGameStore = defineStore('game', () => {
     scene[key] = value
   }
 
-  const createAction = (scene: Scene) => {
+  const createAction = (sceneId: SceneId) => {
     const newAction: Action = {
       title: 'New Action',
       nextScene: undefined,
     }
+    const scene = state.value.scenes[sceneId]
     scene.actions.push(newAction)
     return newAction
   }
 
-  const deleteAction = (scene: Scene, action: Action) => {
+  const deleteAction = (sceneId: SceneId, action: Action) => {
+    const scene = state.value.scenes[sceneId]
     const index = scene.actions.indexOf(action)
     scene.actions.splice(index, 1)
   }

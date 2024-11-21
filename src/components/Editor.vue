@@ -1,9 +1,9 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import Panzoom from '@panzoom/panzoom'
+import ConnectionLine from './editor/ConnectionLine.vue'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { ref, useTemplateRef, computed, onMounted } from 'vue';
+import { useTemplateRef, computed, onMounted } from 'vue';
 
 import { useGameStore, type SceneId } from '../stores/game';
 import { useEditorStore } from '../stores/editor';
@@ -12,6 +12,8 @@ import type { SceneWithMeta } from '../stores/editor';
 import EditableScene from './editor/EditableScene.vue';
 
 import { usePanzoomStore } from '../stores/panzoom';
+import { useConnectionStore } from '@/stores/connections';
+const connectionsStore = useConnectionStore();
 const panzoomStore = usePanzoomStore();
 
 const gameStore = useGameStore();
@@ -79,6 +81,20 @@ onMounted(() => {
       event.preventDefault();
     }
   });
+
+  // Add event listener for mouse move
+  editorRef.value.addEventListener('mousemove', (event) => {
+    if (!event.target) {
+      return;
+    }
+    if (event.target !== editorRef.value) {
+      return;
+    }
+    connectionsStore.setMousePosition({
+      x: event.offsetX,
+      y: event.offsetY,
+    });
+  });
 })
 
 </script>
@@ -89,6 +105,10 @@ onMounted(() => {
 
   <main ref="editor" id="editor">
     <EditableScene v-for="scene in currentScenesWithMeta" :key="scene.id" :scene-with-meta="scene" />
+    <svg class="connections">
+      <ConnectionLine v-for="connection in connectionsStore.state.connections" :key="connection.id"
+        :connection="connection" />
+    </svg>
   </main>
 </template>
 
@@ -98,5 +118,14 @@ onMounted(() => {
   width: 100000px;
   height: 100000px;
   background-color: #f0f0f0;
+}
+
+.connections {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
 }
 </style>

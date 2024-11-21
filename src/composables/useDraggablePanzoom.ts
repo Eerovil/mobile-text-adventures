@@ -41,7 +41,12 @@ export function useDraggablePanzoom(intialDraggableElement: EditorDraggableEleme
       const initialX = intialDraggableElement.x || 50;
       const initialY = intialDraggableElement.y || 50;
       console.log('initialX', initialX, 'initialY', initialY);
-      panzoom2.pan(initialX, initialY);
+      setTimeout(() => {
+        if (!panzoom2) {
+          throw new Error('Panzoom not found');
+        }
+        panzoom2.pan(initialX, initialY);
+      }, 0);
     });
 
     function adjustScale(oldScale: number, newScale: number) {
@@ -68,7 +73,7 @@ export function useDraggablePanzoom(intialDraggableElement: EditorDraggableEleme
 
     // watch for changes is panzoom2 pan
     setTimeout(() => {
-      child.addEventListener('panzoomend', () => {
+      child.addEventListener('panzoompan', () => {
         if (!panzoom2) {
           throw new Error('Panzoom not found');
         }
