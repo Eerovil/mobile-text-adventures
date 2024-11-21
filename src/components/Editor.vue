@@ -1,5 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
+import Panzoom from '@panzoom/panzoom'
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ref, useTemplateRef, computed, onMounted } from 'vue';
 
@@ -8,6 +10,9 @@ import { useEditorStore } from '../stores/editor';
 import type { SceneWithMeta } from '../stores/editor';
 
 import EditableScene from './editor/EditableScene.vue';
+
+import { usePanzoomStore } from '../stores/panzoom';
+const panzoomStore = usePanzoomStore();
 
 const gameStore = useGameStore();
 const editorStore = useEditorStore();
@@ -30,17 +35,35 @@ const createScene = (x: number, y: number) => {
 }
 
 const editorRef = useTemplateRef('editor');
+
 onMounted(() => {
   // When right clicking on background, create a new scene
   if (!editorRef.value) {
     throw new Error('Editor ref not found');
   }
-  editorRef.value.addEventListener('contextmenu', (e) => {
+  const elem = editorRef.value;
+  elem.addEventListener('contextmenu', (e) => {
     e.preventDefault();
     createScene(e.offsetX, e.offsetY);
   });
-})
+  const panzoom = Panzoom(elem, {
+    maxScale: 2,
+    minScale: 0.5,
+    excludeClass: 'editable-scene',
+  });
 
+  panzoomStore.setPanzoom(panzoom);
+
+  const parent = elem.parentElement
+  if (!parent) {
+    throw new Error('Editor parent not found');
+  }
+  // This demo binds to shift + wheel
+  parent.addEventListener('wheel', function(event) {
+    if (!event.shiftKey) return
+    panzoomStore.zoomWithWheel(event)
+  })
+})
 
 </script>
 

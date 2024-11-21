@@ -5,17 +5,22 @@ import type { SceneId } from './game'
 
 export type TextBoxId = string & { __brand: 'TextBoxId' }
 
-export interface EditorTextBox {
-    id: TextBoxId
-    text: string
+
+export interface EditorDraggableElement {
     x: number
     y: number
+    width?: number
+    height?: number
 }
 
-export interface EditorSceneState {
+
+export interface EditorTextBox extends EditorDraggableElement {
+    id: TextBoxId
+    text: string
+}
+
+export interface EditorSceneState extends EditorDraggableElement {
     id: SceneId
-    x: number
-    y: number
 }
 
 export interface EditorState {
