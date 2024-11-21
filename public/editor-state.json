@@ -1,71 +1,9 @@
 {
   "scenes": {
-    "1senppe9b": {
-      "id": "1senppe9b",
-      "x": 436,
-      "y": 110
-    },
-    "nshxx3jtq": {
-      "id": "nshxx3jtq",
-      "x": 180,
-      "y": 212
-    },
-    "9wf69rv1a": {
-      "id": "9wf69rv1a",
-      "x": 3888,
-      "y": 1624,
-      "actionPositions": []
-    },
-    "ngsobmg01": {
-      "id": "ngsobmg01",
-      "x": 7689,
-      "y": 175,
-      "actionPositions": []
-    },
-    "n82jjxtw8": {
-      "id": "n82jjxtw8",
-      "x": 3229,
-      "y": 3598,
-      "actionPositions": []
-    },
-    "3yuurwjif": {
-      "id": "3yuurwjif",
-      "x": 8260,
-      "y": 3660,
-      "actionPositions": []
-    },
-    "jog93xkjl": {
-      "id": "jog93xkjl",
-      "x": 1208,
-      "y": 2477,
-      "actionPositions": []
-    },
-    "qrb18a5bo": {
-      "id": "qrb18a5bo",
-      "x": 1755,
-      "y": 971,
-      "actionPositions": [
-        {
-          "x": 201,
-          "y": 463
-        }
-      ]
-    },
-    "8iu9bor6g": {
-      "id": "8iu9bor6g",
-      "x": 1068,
-      "y": 962,
-      "actionPositions": [
-        {
-          "x": 201,
-          "y": 463
-        }
-      ]
-    },
-    "hxz1snbve": {
-      "id": "hxz1snbve",
-      "x": 619,
-      "y": 19,
+    "sst2rjfg2": {
+      "id": "sst2rjfg2",
+      "x": 691,
+      "y": 210,
       "actionPositions": [
         {
           "x": 89,
@@ -81,41 +19,16 @@
         }
       ]
     },
-    "6o9cjhdh4": {
-      "id": "6o9cjhdh4",
-      "x": 317,
-      "y": 943,
-      "actionPositions": [
-        {
-          "x": 89,
-          "y": 372
-        },
-        {
-          "x": 249,
-          "y": 372
-        },
-        {
-          "x": 409,
-          "y": 372
-        },
-        {
-          "x": 89,
-          "y": 442
-        },
-        {
-          "x": 249,
-          "y": 442
-        },
-        {
-          "x": 409,
-          "y": 442
-        }
-      ]
+    "j33wnouft": {
+      "id": "j33wnouft",
+      "x": 418727,
+      "y": 2470009,
+      "actionPositions": []
     },
-    "vt5ig5fgb": {
-      "id": "vt5ig5fgb",
-      "x": 4778,
-      "y": 477,
+    "6nxl6cqad": {
+      "id": "6nxl6cqad",
+      "x": 2489,
+      "y": 556,
       "actionPositions": [
         {
           "x": 201,
@@ -123,13 +36,12 @@
         }
       ]
     },
-    "ihdfst6yb": {
-      "id": "ihdfst6yb",
-      "x": 4696,
-      "y": 1888,
+    "a4ob8s7x2": {
+      "id": "a4ob8s7x2",
+      "x": 416739,
+      "y": 310150,
       "actionPositions": []
     }
   },
-  "textboxes": {},
-  "zoom": 0.1
+  "textboxes": {}
 }

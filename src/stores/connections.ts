@@ -2,6 +2,7 @@ import { defineStore } from "pinia"
 import { ref } from "vue"
 import { useGameStore, type SceneId } from "./game"
 import { useEditorStore } from "./editor"
+import { usePanzoomStore } from "./panzoom"
 
 export type ConnectionId = string & { __brand: 'ConnectionId' }
 
@@ -111,6 +112,35 @@ export const useConnectionStore = defineStore('connections', () => {
             }
         }
     }
+
+    const redrawAllConnections = () => {
+        // Draw all connections using the editorStore's scene positions
+        // And visible scenes from gameStore
+        for (const scene of gameStore.allCurrentScenes) {
+            for (const actionIndex in scene.actions) {
+                const action = scene.actions[actionIndex]
+                if (action.nextScene) {
+                    const connectionId = `connection-${scene.id}-${actionIndex}` as ConnectionId
+                    const fromScene = editorStore.state.scenes[scene.id]
+                    const toScene = editorStore.state.scenes[action.nextScene]
+                    state.value.connections[connectionId] = {
+                        id: connectionId,
+                        fromX: fromScene.x + fromScene.actionPositions![parseInt(actionIndex)].x,
+                        fromY: fromScene.y + fromScene.actionPositions![parseInt(actionIndex)].y,
+                        toX: toScene.x,
+                        toY: toScene.y,
+                        toSceneId: action.nextScene,
+                    }
+                }
+            }
+        }
+    }
+
+    const panzoomStore = usePanzoomStore();
+    panzoomStore.allDataLoaded.then(() => {
+        // Draw all connections
+        redrawAllConnections();
+    });
 
     return {
         state,

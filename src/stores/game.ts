@@ -77,6 +77,7 @@ export const useGameStore = defineStore('game', () => {
       currentSceneId.value = state2
     }
   }
+  loadGameState();
 
   // Load the game data from a JSON file
   const loadGameData = async (url: string) => {
@@ -101,7 +102,7 @@ export const useGameStore = defineStore('game', () => {
 
   // Go to a scene by its ID
   const getSceneById = (sceneId: SceneId | undefined) => {
-    if (!sceneId) {
+    if (!sceneId || !state.value.scenes[sceneId]) {
       return undefined
     }
     const newScene = state.value.scenes[sceneId]
@@ -132,14 +133,21 @@ export const useGameStore = defineStore('game', () => {
     goToScene(action.nextScene)
   }
 
-  const getSceneChildren = (scene: Scene): Scene[] => {
+  const getSceneChildren = (scene: Scene, handledSceneIds?: Set<SceneId>): Scene[] => {
     // Find all scenes that are accessible from the current scene, recursively
     const children = scene.actions.map(action => action.nextScene)
     // Children is an array of scene IDs
+    handledSceneIds = handledSceneIds || new Set()
     return children.flatMap(childId => {
+      handledSceneIds!.add(childId as SceneId)
       const child = getSceneById(childId)
+      if (handledSceneIds.has(childId as SceneId)) {
+        if (child) {
+          return [child]
+        }
+      }
       if (child) {
-        return [child, ...getSceneChildren(child)]
+        return [child, ...getSceneChildren(child, handledSceneIds)]
       }
       return [];
     })
@@ -187,16 +195,16 @@ export const useGameStore = defineStore('game', () => {
     return newScene
   }
 
-  const deleteScene = (scene: Scene) => {
-    delete state.value.scenes[scene.id]
+  const deleteScene = (sceneId: SceneId) => {
+    delete state.value.scenes[sceneId]
     for (const otherScene of Object.values(state.value.scenes)) {
       for (const action of otherScene.actions) {
-        if (action.nextScene === scene.id) {
+        if (action.nextScene === sceneId) {
           action.nextScene = undefined
         }
       }
       for (const key of Object.keys(otherScene.evolutions)) {
-        if (otherScene.evolutions[key as GameProgressionSlug] === scene.id) {
+        if (otherScene.evolutions[key as GameProgressionSlug] === sceneId) {
           delete otherScene.evolutions[key as GameProgressionSlug]
         }
       }

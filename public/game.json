@@ -1,121 +1,46 @@
 {
   "scenes": {
-    "9wf69rv1a": {
-      "id": "9wf69rv1a",
-      "title": "New Scene",
-      "text": "",
-      "actions": [],
-      "evolutions": {}
-    },
-    "ngsobmg01": {
-      "id": "ngsobmg01",
-      "title": "New Scene",
-      "text": "",
-      "actions": [],
-      "evolutions": {}
-    },
-    "n82jjxtw8": {
-      "id": "n82jjxtw8",
-      "title": "New Scene called asd myscene",
-      "text": "This is the textwawdawd",
-      "actions": [],
-      "evolutions": {}
-    },
-    "3yuurwjif": {
-      "id": "3yuurwjif",
-      "title": "New wdwdwdadsasd",
-      "text": "awdawd",
-      "actions": [],
-      "evolutions": {}
-    },
-    "jog93xkjl": {
-      "id": "jog93xkjl",
-      "title": "New Scene",
-      "text": "",
-      "actions": [],
-      "evolutions": {}
-    },
-    "qrb18a5bo": {
-      "id": "qrb18a5bo",
-      "title": "New Scene",
-      "text": "",
-      "actions": [
-        {
-          "title": "New Action"
-        }
-      ],
-      "evolutions": {}
-    },
-    "8iu9bor6g": {
-      "id": "8iu9bor6g",
-      "title": "New Scene",
-      "text": "",
-      "actions": [
-        {
-          "title": "New Action"
-        }
-      ],
-      "evolutions": {}
-    },
-    "hxz1snbve": {
-      "id": "hxz1snbve",
+    "sst2rjfg2": {
+      "id": "sst2rjfg2",
       "title": "New Scene",
       "text": "",
       "actions": [
         {
           "title": "New Action",
-          "nextScene": "6o9cjhdh4"
+          "nextScene": "j33wnouft"
         },
         {
           "title": "New Action",
-          "nextScene": "8iu9bor6g"
+          "nextScene": "6nxl6cqad"
         },
         {
-          "title": "New Action"
+          "title": "New Action",
+          "nextScene": "a4ob8s7x2"
         }
       ],
       "evolutions": {}
     },
-    "6o9cjhdh4": {
-      "id": "6o9cjhdh4",
+    "j33wnouft": {
+      "id": "j33wnouft",
+      "title": "New Scene",
+      "text": "",
+      "actions": [],
+      "evolutions": {}
+    },
+    "6nxl6cqad": {
+      "id": "6nxl6cqad",
       "title": "New Scene",
       "text": "",
       "actions": [
         {
-          "title": "New Action"
-        },
-        {
-          "title": "New Action"
-        },
-        {
-          "title": "New Action"
-        },
-        {
-          "title": "New Action"
-        },
-        {
-          "title": "New Action"
-        },
-        {
-          "title": "New Action"
+          "title": "New Action",
+          "nextScene": "sst2rjfg2"
         }
       ],
       "evolutions": {}
     },
-    "vt5ig5fgb": {
-      "id": "vt5ig5fgb",
-      "title": "New Sceneasdasd",
-      "text": "Olet herännyt huoneesta",
-      "actions": [
-        {
-          "title": "asdasd",
-          "nextScene": "9wf69rv1a"
-        }
-      ],
-      "evolutions": {}
-    },
-    "ihdfst6yb": {
-      "id": "ihdfst6yb",
+    "a4ob8s7x2": {
+      "id": "a4ob8s7x2",
       "title": "New Scene",
       "text": "",
       "actions": [],

@@ -67,6 +67,13 @@ onMounted(() => {
     });
   });
   updateActionPositions();
+  draggableElementRef.value.addEventListener('click', (event) => {
+    gameStore.goToScene(props.sceneWithMeta.id);
+    // alt/option + click
+    if (event.altKey) {
+      gameStore.deleteScene(props.sceneWithMeta.id);
+    }
+  });
 });
 
 const editorStore = useEditorStore();
