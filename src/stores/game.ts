@@ -58,6 +58,7 @@ export const useGameStore = defineStore('game', () => {
     const panzoomStore = usePanzoomStore();
     setTimeout(() => {
       panzoomStore.setGameDataLoaded();
+      watchForChanges();
     }, 10);
   });
 
@@ -237,9 +238,11 @@ export const useGameStore = defineStore('game', () => {
     action.nextScene = undefined
   }
 
-  watch(state, () => {
-    jsonSaver.saveJsonToDisk(state.value, 'game.json')
-  }, { deep: true })
+  const watchForChanges = () => {
+    watch(state, () => {
+      jsonSaver.saveJsonToDisk(state.value, 'game.json')
+    }, { deep: true })
+  }
 
   return {
     state,

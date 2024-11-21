@@ -22,7 +22,6 @@ export interface EditorState {
     textboxes: {
         [key: SceneId]: EditorTextBox
     }
-    zoom: number
 }
 
 
@@ -36,7 +35,6 @@ export const useEditorStore = defineStore('editor', () => {
     const state = ref<EditorState>({
         scenes: {},
         textboxes: {},
-        zoom: 1,
     });
     const jsonSaver = useJsonSaver();
     jsonSaver.loadJsonFromDisk('editor-state.json').then((jsonFromDisk) => {
@@ -47,6 +45,7 @@ export const useEditorStore = defineStore('editor', () => {
         const panzoomStore = usePanzoomStore();
         setTimeout(() => {
             panzoomStore.setEditorDataLoaded();
+            watchForChanges();
         }, 10);
     });
 
@@ -92,13 +91,13 @@ export const useEditorStore = defineStore('editor', () => {
         correctObj.y = y
     }
 
-    // Watch for changes in the editor state and save to disk
-    watch(state, () => {
-        console.log('Saving editor state to disk')
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { zoom, ...editorState } = state.value
-        jsonSaver.saveJsonToDisk(editorState, 'editor-state.json')
-    }, { deep: true })
+    const watchForChanges = () => {
+        // Watch for changes in the editor state and save to disk
+        watch(state, () => {
+            console.log('Saving editor state to disk')
+            jsonSaver.saveJsonToDisk(state.value, 'editor-state.json')
+        }, { deep: true })
+    }
 
     return {
         state,
