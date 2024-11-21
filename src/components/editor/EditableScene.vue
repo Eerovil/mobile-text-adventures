@@ -22,8 +22,10 @@ useDraggablePanzoom(props.sceneWithMeta, useTemplateRef('draggableElementRef'));
 .editable-scene {
   position: absolute;
   background-color: #f0f0f0;
+  font-size: 1px;
   width: 50px;
   height: 50px;
-  border: 1px solid #000;
+  border: 0.1px solid #000;
+  color: black;
 }
 </style>

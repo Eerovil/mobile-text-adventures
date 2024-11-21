@@ -29,9 +29,13 @@ const currentScenesWithMeta = computed(() => {
 })
 
 const createScene = (x: number, y: number) => {
+  const currentScale = panzoomStore.state.currentScale;
+  const oldScale = 1;
+  const scaledX = (x / oldScale) * currentScale;
+  const scaledY = (y / oldScale) * currentScale;
   console.log('Creating scene');
   const scene = gameStore.createScene();
-  editorStore.moveScene(scene.id, x, y);
+  editorStore.moveScene(scene.id, scaledX, scaledY);
 }
 
 const editorRef = useTemplateRef('editor');
@@ -47,7 +51,7 @@ onMounted(() => {
     createScene(e.offsetX, e.offsetY);
   });
   const panzoom = Panzoom(elem, {
-    maxScale: 2,
+    maxScale: 10,
     minScale: 0.5,
     excludeClass: 'editable-scene',
   });
