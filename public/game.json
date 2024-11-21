@@ -39,7 +39,11 @@
       "id": "qrb18a5bo",
       "title": "New Scene",
       "text": "",
-      "actions": [],
+      "actions": [
+        {
+          "title": "New Action"
+        }
+      ],
       "evolutions": {}
     },
     "8iu9bor6g": {
@@ -57,7 +61,19 @@
       "id": "hxz1snbve",
       "title": "New Scene",
       "text": "",
-      "actions": [],
+      "actions": [
+        {
+          "title": "New Action",
+          "nextScene": "6o9cjhdh4"
+        },
+        {
+          "title": "New Action",
+          "nextScene": "8iu9bor6g"
+        },
+        {
+          "title": "New Action"
+        }
+      ],
       "evolutions": {}
     },
     "6o9cjhdh4": {
@@ -92,7 +108,8 @@
       "text": "Olet herännyt huoneesta",
       "actions": [
         {
-          "title": "asdasd"
+          "title": "asdasd",
+          "nextScene": "9wf69rv1a"
         }
       ],
       "evolutions": {}

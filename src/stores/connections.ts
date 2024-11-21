@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import { ref } from "vue"
-import type { SceneId } from "./game"
+import { useGameStore, type SceneId } from "./game"
 import { useEditorStore } from "./editor"
 
 export type ConnectionId = string & { __brand: 'ConnectionId' }
@@ -36,6 +36,7 @@ export const useConnectionStore = defineStore('connections', () => {
         }
     })
     const editorStore = useEditorStore()
+    const gameStore = useGameStore()
 
     const addConnection = (sceneId: SceneId, actionIndex: number) => {
         // Delete it
@@ -43,12 +44,13 @@ export const useConnectionStore = defineStore('connections', () => {
             deleteConnection(state.value.connectionInProgress)
         }
         const connectionId = `connection-${sceneId}-${actionIndex}` as ConnectionId
-        const sceneX = editorStore.state.scenes[sceneId].x
-        const sceneY = editorStore.state.scenes[sceneId].y
+        const scene = editorStore.state.scenes[sceneId]
+        const actionX = editorStore.state.scenes[sceneId].x + scene.actionPositions![actionIndex].x
+        const actionY = editorStore.state.scenes[sceneId].y + scene.actionPositions![actionIndex].y
         state.value.connections[connectionId] = {
             id: connectionId,
-            fromX: sceneX,
-            fromY: sceneY
+            fromX: actionX,
+            fromY: actionY,
         }
         state.value.connectionInProgress = connectionId
         console.log('Added connection', connectionId, state.value.connections[connectionId]);
@@ -80,16 +82,23 @@ export const useConnectionStore = defineStore('connections', () => {
         connection.toY = sceneY
         connection.toSceneId = sceneId
         console.log('Finished connection', connection.id, connection);
-        state.value.connectionInProgress = undefined
+
+        const scene = gameStore.state.scenes[fromSceneId]
+        const action = scene.actions[parseInt(state.value.connectionInProgress.split('-')[2])]
+        gameStore.joinActionToScene(action, sceneId)
+
+        state.value.connectionInProgress = undefined;
     }
 
     const setSceneCoordinates = (sceneId: SceneId, x: number, y: number) => {
         // Find the connection start from sceneId
         for (const key in state.value.connections) {
             if (key.startsWith(`connection-${sceneId}`)) {
+                const actionIndex = parseInt(key.split('-')[2])
+                const scene = editorStore.state.scenes[sceneId]
                 const connection = state.value.connections[key as ConnectionId]
-                connection.fromX = x
-                connection.fromY = y
+                connection.fromX = x + scene.actionPositions![actionIndex].x
+                connection.fromY = y + scene.actionPositions![actionIndex].y
             }
         }
 

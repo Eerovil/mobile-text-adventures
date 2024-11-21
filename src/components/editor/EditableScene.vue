@@ -2,10 +2,10 @@
 import EditableAction from '@/components/editor/EditableAction.vue';
 import { useDraggablePanzoom } from '@/composables/useDraggablePanzoom';
 
-import { ref, defineProps, useTemplateRef, onMounted, type Ref } from 'vue';
+import { ref, defineProps, useTemplateRef, onMounted, type Ref, watch } from 'vue';
 
 import { useConnectionStore } from '@/stores/connections';
-import type { SceneWithMeta } from '@/stores/editor';
+import { useEditorStore, type SceneWithMeta } from '@/stores/editor';
 import { useGameStore } from '@/stores/game';
 const gameStore = useGameStore();
 const connectionsStore = useConnectionStore();
@@ -66,6 +66,36 @@ onMounted(() => {
       y: props.sceneWithMeta.y,
     });
   });
+  updateActionPositions();
+});
+
+const editorStore = useEditorStore();
+const updateActionPositions = () => {
+  setTimeout(() => {
+    const elem = draggableElementRef.value;
+    if (!elem) {
+      return;
+    }
+    const positions = [];
+    for (let i = 0; i < props.sceneWithMeta.actions.length; i++) {
+      const actionElement = elem.querySelector(`.editable-action[data-index="${i}"]`) as HTMLElement | null;
+      if (!actionElement) {
+        console.log('Action element not found', i);
+        continue;
+      }
+      // Get position within scene
+      const x = actionElement.offsetLeft + actionElement.offsetWidth / 2;
+      const y = actionElement.offsetTop + actionElement.offsetHeight / 2;
+      console.log('Setting action position', i, x, y);
+      positions.push({ x, y });
+    }
+    editorStore.setActionPositions(props.sceneWithMeta.id, positions);
+  }, 1)
+};
+
+watch(props.sceneWithMeta.actions, () => {
+  console.log('Actions changed');
+  updateActionPositions();
 });
 
 </script>
@@ -82,7 +112,7 @@ onMounted(() => {
     </div>
 
     <div class="actions">
-      <EditableAction v-for="(action, index) in sceneWithMeta.actions" :key="index" :action="action"
+      <EditableAction v-for="(action, index) in sceneWithMeta.actions" :key="index" :action="action" :data-index="index"
         :action-index="index" :scene-id="sceneWithMeta.id" />
       <button @click="createAction">Create action</button>
     </div>

@@ -15,9 +15,18 @@ export interface EditorTextBox extends EditorDraggableElement {
     text: string
 }
 
+interface ActionPosition {
+    x: number
+    y: number
+}
+
+export interface EditorScene extends EditorDraggableElement {
+    actionPositions?: ActionPosition[]
+}
+
 export interface EditorState {
     scenes: {
-        [key: SceneId]: EditorDraggableElement
+        [key: SceneId]: EditorScene
     },
     textboxes: {
         [key: SceneId]: EditorTextBox
@@ -104,11 +113,19 @@ export const useEditorStore = defineStore('editor', () => {
         }, { deep: true })
     }
 
+    const setActionPositions = (sceneId: SceneId, actionPositions: ActionPosition[]) => {
+        if (!state.value.scenes[sceneId]) {
+            return
+        }
+        state.value.scenes[sceneId].actionPositions = actionPositions
+    }
+
     return {
         state,
         moveScene,
         createTextBox,
         updateTextBox,
         moveDraggableElement,
+        setActionPositions,
     }
 });

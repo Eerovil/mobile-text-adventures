@@ -77,7 +77,6 @@ export function useDraggablePanzoom(intialDraggableElement: EditorDraggableEleme
         if (!panzoom2) {
           throw new Error('Panzoom not found');
         }
-        console.log('panzoom2.getPan()', panzoom2.getPan());
         const { x, y } = panzoom2.getPan();
         const oldScale = 1;
         const newScale = panzoomStore.getScale;

@@ -12,58 +12,122 @@
     },
     "9wf69rv1a": {
       "id": "9wf69rv1a",
-      "x": 2545,
-      "y": 5469
+      "x": 3888,
+      "y": 1624,
+      "actionPositions": []
     },
     "ngsobmg01": {
       "id": "ngsobmg01",
-      "x": 7929,
-      "y": 1420
+      "x": 7689,
+      "y": 175,
+      "actionPositions": []
     },
     "n82jjxtw8": {
       "id": "n82jjxtw8",
-      "x": 7893,
-      "y": 1985
+      "x": 3229,
+      "y": 3598,
+      "actionPositions": []
     },
     "3yuurwjif": {
       "id": "3yuurwjif",
-      "x": 3243,
-      "y": 1196
+      "x": 8260,
+      "y": 3660,
+      "actionPositions": []
     },
     "jog93xkjl": {
       "id": "jog93xkjl",
-      "x": 601,
-      "y": 1231
+      "x": 1208,
+      "y": 2477,
+      "actionPositions": []
     },
     "qrb18a5bo": {
       "id": "qrb18a5bo",
-      "x": 1505,
-      "y": 996
+      "x": 1755,
+      "y": 971,
+      "actionPositions": [
+        {
+          "x": 201,
+          "y": 463
+        }
+      ]
     },
     "8iu9bor6g": {
       "id": "8iu9bor6g",
-      "x": 100,
-      "y": 527
+      "x": 1068,
+      "y": 962,
+      "actionPositions": [
+        {
+          "x": 201,
+          "y": 463
+        }
+      ]
     },
     "hxz1snbve": {
       "id": "hxz1snbve",
-      "x": 1722,
-      "y": 129
+      "x": 619,
+      "y": 19,
+      "actionPositions": [
+        {
+          "x": 89,
+          "y": 442
+        },
+        {
+          "x": 249,
+          "y": 442
+        },
+        {
+          "x": 409,
+          "y": 442
+        }
+      ]
     },
     "6o9cjhdh4": {
       "id": "6o9cjhdh4",
-      "x": 808,
-      "y": 189
+      "x": 317,
+      "y": 943,
+      "actionPositions": [
+        {
+          "x": 89,
+          "y": 372
+        },
+        {
+          "x": 249,
+          "y": 372
+        },
+        {
+          "x": 409,
+          "y": 372
+        },
+        {
+          "x": 89,
+          "y": 442
+        },
+        {
+          "x": 249,
+          "y": 442
+        },
+        {
+          "x": 409,
+          "y": 442
+        }
+      ]
     },
     "vt5ig5fgb": {
       "id": "vt5ig5fgb",
-      "x": 2373,
-      "y": 239
+      "x": 4778,
+      "y": 477,
+      "actionPositions": [
+        {
+          "x": 201,
+          "y": 463
+        }
+      ]
     },
     "ihdfst6yb": {
       "id": "ihdfst6yb",
-      "x": 2332,
-      "y": 940
+      "x": 4696,
+      "y": 1888,
+      "actionPositions": []
     }
   },
   "textboxes": {},

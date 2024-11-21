@@ -228,8 +228,8 @@ export const useGameStore = defineStore('game', () => {
     scene.actions = actions
   }
 
-  const joinActionToScene = (action: Action, nextScene: Scene) => {
-    action.nextScene = nextScene.id
+  const joinActionToScene = (action: Action, nextSceneId: SceneId) => {
+    action.nextScene = nextSceneId
   }
 
   const setActionValue = (action: Action, key: 'gameProgression' | 'title' | 'description', value: unknown) => {
