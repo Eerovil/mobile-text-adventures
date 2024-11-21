@@ -51,8 +51,8 @@ onMounted(() => {
     createScene(e.offsetX, e.offsetY);
   });
   const panzoom = Panzoom(elem, {
-    maxScale: 10,
-    minScale: 0.5,
+    maxScale: 1,
+    minScale: 0.01,
     excludeClass: 'editable-scene',
   });
 
@@ -63,7 +63,7 @@ onMounted(() => {
     throw new Error('Editor parent not found');
   }
   // This demo binds to shift + wheel
-  parent.addEventListener('wheel', function(event) {
+  parent.addEventListener('wheel', function (event) {
     if (!event.shiftKey) return
     panzoomStore.zoomWithWheel(event)
   })
@@ -83,8 +83,8 @@ onMounted(() => {
 <style scoped>
 #editor {
   position: relative;
-  width: 100%;
-  height: 100%;
+  width: 100000px;
+  height: 100000px;
   background-color: #f0f0f0;
 }
 </style>

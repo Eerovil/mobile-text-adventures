@@ -21,7 +21,7 @@ export interface Action {
 export interface Scene {
   id: SceneId
   title: string
-  description?: string
+  text: string
   actions: Action[]
   evolutions: {
     // When game state contains the key, the scene will redirect to the value
@@ -160,6 +160,7 @@ export const useGameStore = defineStore('game', () => {
     const newScene: Scene = {
       id: createRandomSceneId(),
       title: 'New Scene',
+      text: '',
       actions: [],
       evolutions: {}
     }
@@ -186,7 +187,8 @@ export const useGameStore = defineStore('game', () => {
     }
   }
 
-  const setSceneValue = (scene: Scene, key: 'title' | 'description', value: string) => {
+  const setSceneValue = (sceneId: SceneId, key: 'title' | 'text', value: string) => {
+    const scene = state.value.scenes[sceneId]
     scene[key] = value
   }
 

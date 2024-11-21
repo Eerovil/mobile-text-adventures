@@ -1,4 +1,4 @@
-import { onMounted, watch, type Ref } from 'vue';
+import { computed, onMounted, watch, type Ref } from 'vue';
 import Panzoom from '@panzoom/panzoom';
 import type { PanzoomObject } from '@panzoom/panzoom';
 
@@ -30,6 +30,7 @@ export function useDraggablePanzoom(intialDraggableElement: EditorDraggableEleme
           `scale(${scale}) translate(${x / parentScale}px, ${y / parentScale}px)`
         );
       },
+      excludeClass: 'not-draggable',
     });
 
     const initialX = intialDraggableElement.x || 50;
@@ -66,5 +67,6 @@ export function useDraggablePanzoom(intialDraggableElement: EditorDraggableEleme
 
   return {
     draggableElementRef,
+    zoomLevel: computed(() => panzoomStore.getScale),
   };
 }
