@@ -2,8 +2,8 @@
   "scenes": {
     "sxl7nk082": {
       "id": "sxl7nk082",
-      "x": 462,
-      "y": 112,
+      "x": 461,
+      "y": 111,
       "actionPositions": [
         {
           "x": 127,
@@ -17,8 +17,8 @@
     },
     "8grmgiuof": {
       "id": "8grmgiuof",
-      "x": 1137,
-      "y": 118,
+      "x": 1203,
+      "y": 96,
       "actionPositions": [
         {
           "x": 201.5,

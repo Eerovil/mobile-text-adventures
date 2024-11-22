@@ -55,6 +55,9 @@ export const useGameStore = defineStore('game', () => {
     if (jsonFromDisk) {
       console.log('setting jsonFromDisk', jsonFromDisk)
       state.value = jsonFromDisk
+      if (!currentSceneId.value) {
+        currentSceneId.value = state.value.initialScene
+      }
     }
     console.log('state', state.value.scenes);
     const panzoomStore = usePanzoomStore();
@@ -79,16 +82,7 @@ export const useGameStore = defineStore('game', () => {
       currentSceneId.value = state2
     }
   }
-  loadGameState();
-
-  // Load the game data from a JSON file
-  const loadGameData = async (url: string) => {
-    const response = await fetch(url)
-    state.value = await response.json()
-    if (!currentSceneId.value) {
-      currentSceneId.value = state.value.initialScene
-    }
-  }
+  // loadGameState();
 
   // Save game state to local storage
   const saveGameState = () => {
@@ -262,7 +256,6 @@ export const useGameStore = defineStore('game', () => {
     gameProgression,
     currentScene,
     loadGameState,
-    loadGameData,
     saveGameState,
     resetGameState,
     goToScene,
