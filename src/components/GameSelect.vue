@@ -47,4 +47,13 @@ function chooseGame(game: string) {
     flex-direction: column;
     justify-content: flex-start;
 }
+
+li {
+    list-style-type: none;
+    margin-top: 1rem;
+}
+
+button {
+    font-size: 2rem;
+}
 </style>
