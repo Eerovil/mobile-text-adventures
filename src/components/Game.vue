@@ -24,11 +24,15 @@ const setShowActions = (value: boolean) => {
 const nextCharacter = () => {
     currentChar.value++;
     if (currentChar.value >= textLines.value[currentLine.value].length) {
+        setTimeout(() => {
+            allowNextLine.value = true;
+        }, 500);
         if (currentLine.value >= textLines.value.length - 1) {
             setShowActions(true);
         }
         return
     }
+    allowNextLine.value = false;
     setTimeout(() => {
         nextCharacter();
     }, CHARACTER_DELAY);
@@ -67,6 +71,8 @@ const textToShow = computed(() => {
     return textLines.value[currentLine.value].substring(0, currentChar.value);
 });
 
+const allowNextLine = ref<boolean>(false);
+
 const nextLine = () => {
     // If clicking on action, return
     if (showActions.value) {
@@ -79,6 +85,9 @@ const nextLine = () => {
     }
     if (currentLine.value >= textLines.value.length - 1) {
         setShowActions(true);
+        return;
+    }
+    if (!allowNextLine.value) {
         return;
     }
     currentLine.value++;
