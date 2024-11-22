@@ -13,11 +13,19 @@ const showActions = ref<boolean>(false);
 
 const CHARACTER_DELAY = 100;
 
+const setShowActions = (value: boolean) => {
+    if (value) {
+        setTimeout(() => {
+            showActions.value = true;
+        }, 1000);
+    }
+}
+
 const nextCharacter = () => {
     currentChar.value++;
     if (currentChar.value >= textLines.value[currentLine.value].length) {
         if (currentLine.value >= textLines.value.length - 1) {
-            showActions.value = true;
+            setShowActions(true);
         }
         return
     }
@@ -60,13 +68,17 @@ const textToShow = computed(() => {
 });
 
 const nextLine = () => {
+    // If clicking on action, return
+    if (showActions.value) {
+        return;
+    }
     if (currentChar.value < textLines.value[currentLine.value].length) {
         nextCharacter();
         nextCharacter();
         return;
     }
     if (currentLine.value >= textLines.value.length - 1) {
-        showActions.value = true;
+        setShowActions(true);
         return;
     }
     currentLine.value++;
@@ -75,8 +87,10 @@ const nextLine = () => {
 }
 
 const selectAction = (action: Action) => {
-    gameStore.performAction(action);
-    showActions.value = false;
+    setTimeout(() => {
+        gameStore.performAction(action);
+        showActions.value = false;
+    }, 10)
 }
 
 </script>
@@ -86,17 +100,60 @@ const selectAction = (action: Action) => {
     </header>
 
     <main v-if="currentScene" id="app-main" @click="nextLine">
-        <p>{{ currentScene.title }}</p>
-        <h2>{{ textToShow }}</h2>
+        <div class="texts">
+            <p>{{ currentScene.title }}</p>
+            <h2>{{ textToShow }}</h2>
+        </div>
         <div v-if="showActions" class="actions">
-            <button v-for="(action, index) in currentScene.actions" :key="index" @click="selectAction(action)">{{
-                action.title }}</button>
+            <div v-for="(action, index) in currentScene.actions" :key="index" @click="selectAction(action)">{{
+                action.title }}</div>
         </div>
     </main>
 </template>
 
-<style>
+<style scoped>
 #app-main {
     user-select: none;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 4rem;
+}
+
+.texts {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    width: 90%;
+    height: 30%;
+}
+
+.texts h2 {
+    font-size: 2rem;
+}
+
+.actions {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.actions>div {
+    margin: 0.5rem;
+    padding: 0.5rem;
+    background-color: #ffffff;
+    color: black;
+    cursor: pointer;
+
+    font-size: 2rem;
+
+    border: 1px solid #000;
 }
 </style>

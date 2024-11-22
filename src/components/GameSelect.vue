@@ -36,3 +36,15 @@ function chooseGame(game: string) {
     </main>
     <Game v-else />
 </template>
+
+<style scoped>
+#app-main {
+    user-select: none;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+</style>
