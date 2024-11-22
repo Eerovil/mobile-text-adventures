@@ -110,7 +110,7 @@ const selectAction = (action: Action) => {
 
     <main v-if="currentScene" id="app-main" @click="nextLine">
         <div class="texts">
-            <p>{{ currentScene.title }}</p>
+            <p>{{ currentScene.title || '' }}</p>
             <h2>{{ textToShow }}</h2>
         </div>
         <div v-if="showActions" class="actions">
