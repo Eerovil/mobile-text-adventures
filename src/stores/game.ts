@@ -139,13 +139,13 @@ export const useGameStore = defineStore('game', () => {
     // Children is an array of scene IDs
     handledSceneIds = handledSceneIds || new Set()
     return children.flatMap(childId => {
-      handledSceneIds!.add(childId as SceneId)
       const child = getSceneById(childId)
       if (handledSceneIds.has(childId as SceneId)) {
         if (child) {
           return [child]
         }
       }
+      handledSceneIds!.add(childId as SceneId)
       if (child) {
         return [child, ...getSceneChildren(child, handledSceneIds)]
       }

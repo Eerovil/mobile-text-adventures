@@ -2,7 +2,7 @@
 import EditableAction from '@/components/editor/EditableAction.vue';
 import { useDraggablePanzoom } from '@/composables/useDraggablePanzoom';
 
-import { ref, defineProps, useTemplateRef, onMounted, type Ref, watch } from 'vue';
+import { ref, defineProps, useTemplateRef, onMounted, type Ref, watch, computed } from 'vue';
 
 import { useConnectionStore } from '@/stores/connections';
 import { useEditorStore, type SceneWithMeta } from '@/stores/editor';
@@ -68,7 +68,6 @@ onMounted(() => {
   });
   updateActionPositions();
   draggableElementRef.value.addEventListener('click', (event) => {
-    gameStore.goToScene(props.sceneWithMeta.id);
     // alt/option + click
     if (event.altKey) {
       gameStore.deleteScene(props.sceneWithMeta.id);
@@ -105,11 +104,24 @@ watch(props.sceneWithMeta.actions, () => {
   updateActionPositions();
 });
 
+const selectedScene = computed({
+  get: () => gameStore.currentSceneId === props.sceneWithMeta.id,
+  set: (value) => {
+    if (value) {
+      gameStore.goToScene(props.sceneWithMeta.id);
+    }
+  },
+});
 </script>
 <template>
   <div ref="draggableElementRef" class="draggable-element editable-scene" :class="{ tiny: zoomLevel < 0.05 }"
     @click="connectionsStore.finishConnection(props.sceneWithMeta.id);">
     <div class="values">
+      <label for="selectedScene">Selected</label>
+      <input id="selectedScene" type="checkbox" v-model="selectedScene" />
+      {{ sceneWithMeta.id }}
+      {{ sceneWithMeta.x }}
+      {{ sceneWithMeta.y }}
       <h1 ref="title" class="not-draggable" contenteditable spellcheck="false" @mousedown="setEditingElement('title')"
         @blur="setTitle">{{
           sceneWithMeta.title }}</h1>

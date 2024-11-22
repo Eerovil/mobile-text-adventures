@@ -40,12 +40,14 @@ export function useDraggablePanzoom(intialDraggableElement: EditorDraggableEleme
       }
       const initialX = intialDraggableElement.x || 50;
       const initialY = intialDraggableElement.y || 50;
-      console.log('initialX', initialX, 'initialY', initialY);
+      console.log(intialDraggableElement.id, 'initialX', initialX, 'initialY', initialY);
+      const scaledX = initialX * panzoomStore.getScale;
+      const scaledY = initialY * panzoomStore.getScale;
       setTimeout(() => {
         if (!panzoom2) {
           throw new Error('Panzoom not found');
         }
-        panzoom2.pan(initialX, initialY);
+        panzoom2.pan(scaledX, scaledY);
       }, 0);
     });
 

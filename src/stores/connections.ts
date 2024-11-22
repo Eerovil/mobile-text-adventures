@@ -79,8 +79,8 @@ export const useConnectionStore = defineStore('connections', () => {
         // Set the connection's toX and toY
         const sceneX = editorStore.state.scenes[sceneId].x
         const sceneY = editorStore.state.scenes[sceneId].y
-        connection.toX = sceneX
-        connection.toY = sceneY
+        connection.toX = sceneX + 250
+        connection.toY = sceneY + 250
         connection.toSceneId = sceneId
         console.log('Finished connection', connection.id, connection);
 
@@ -107,8 +107,8 @@ export const useConnectionStore = defineStore('connections', () => {
         for (const key in state.value.connections) {
             if (state.value.connections[key as ConnectionId].toSceneId === sceneId) {
                 const connection = state.value.connections[key as ConnectionId]
-                connection.toX = x
-                connection.toY = y
+                connection.toX = x + 250
+                connection.toY = y + 250
             }
         }
     }

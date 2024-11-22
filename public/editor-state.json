@@ -2,8 +2,8 @@
   "scenes": {
     "yaivvpctg": {
       "id": "yaivvpctg",
-      "x": 414,
-      "y": 75,
+      "x": 976,
+      "y": 197,
       "actionPositions": [
         {
           "x": 201,
@@ -13,15 +13,29 @@
     },
     "408ros518": {
       "id": "408ros518",
-      "x": 328,
-      "y": 600,
-      "actionPositions": []
+      "x": 275,
+      "y": 775,
+      "actionPositions": [
+        {
+          "x": 201,
+          "y": 463
+        }
+      ]
     },
     "m8dvmv39c": {
       "id": "m8dvmv39c",
-      "x": 1034,
-      "y": 127,
-      "actionPositions": []
+      "x": 276,
+      "y": 198,
+      "actionPositions": [
+        {
+          "x": 121,
+          "y": 463
+        },
+        {
+          "x": 281,
+          "y": 463
+        }
+      ]
     }
   },
   "textboxes": {}

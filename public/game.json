@@ -16,14 +16,28 @@
       "id": "408ros518",
       "title": "New Scene",
       "text": "",
-      "actions": [],
+      "actions": [
+        {
+          "title": "New Action",
+          "nextScene": "m8dvmv39c"
+        }
+      ],
       "evolutions": {}
     },
     "m8dvmv39c": {
       "id": "m8dvmv39c",
       "title": "New Scene",
       "text": "",
-      "actions": [],
+      "actions": [
+        {
+          "title": "New Action",
+          "nextScene": "408ros518"
+        },
+        {
+          "title": "New Action",
+          "nextScene": "yaivvpctg"
+        }
+      ],
       "evolutions": {}
     }
   }
