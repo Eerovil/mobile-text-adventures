@@ -3,7 +3,7 @@
     "short_name": "Tekstiseikkailu",
     "orientation": "portrait",
     "display": "fullscreen",
-    "start_url": "/",
+    "start_url": "/mobile-text-adventures/",
     "theme_color": "#673ab6",
     "background_color": "#111111",
     "icons": [
