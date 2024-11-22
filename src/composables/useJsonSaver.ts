@@ -39,7 +39,7 @@ export function useJsonSaver() {
     }
   }
 
-  const timeouts: Record<string, NodeJS.Timeout> = {};
+  const timeouts: Record<string, ReturnType<typeof setTimeout>> = {};
 
   function debouncedSaveJsonToDisk(data: Record<string, unknown>, fileName: string): void {
     // Set a delay of 1 second, and if there is a new call to this function with same
