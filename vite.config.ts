@@ -49,6 +49,10 @@ const writeJsonPlugin = (): PluginOption => ({
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/mobile-text-adventures/',
+  build: {
+    outDir: 'docs',
+  },
   plugins: [
     vue(),
     vueDevTools(),
