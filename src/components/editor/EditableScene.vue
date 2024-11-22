@@ -147,6 +147,8 @@ const selectedScene = computed({
   border: 1px solid #000;
   color: black;
 
+  padding: 1rem;
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -164,5 +166,11 @@ const selectedScene = computed({
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+.not-draggable {
+  border: 1px solid #919191;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
 }
 </style>

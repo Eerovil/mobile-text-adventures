@@ -14,6 +14,17 @@ const toY = computed(() => {
     return connection.toY || connectionStore.state.mousePosition.y;
 });
 
+const shorterToCoords = computed(() => {
+    const shortenBy = 250;
+    if (!toX.value || !toY.value) {
+        return null;
+    }
+    const angle = Math.atan2(toY.value - connection.fromY, toX.value - connection.fromX);
+    const x = toX.value - shortenBy * Math.cos(angle);
+    const y = toY.value - shortenBy * Math.sin(angle);
+    return { x, y };
+});
+
 function getArrowPoints(
     toX: number,
     toY: number,
@@ -36,18 +47,26 @@ function getArrowPoints(
 </script>
 
 <template>
-    <svg>
-        <!-- Straight line -->
-        <line v-if="toX && toY" :x1="connection.fromX" :y1="connection.fromY" :x2="toX" :y2="toY" stroke="black"
-            stroke-width="2" />
-        <!-- Arrowhead -->
-        <polygon v-if="toX && toY" :points="`
-                ${toX},
-                ${toY}
-                ${getArrowPoints(toX, toY, connection.fromX, connection.fromY).leftX},
-                ${getArrowPoints(toX, toY, connection.fromX, connection.fromY).leftY}
-                ${getArrowPoints(toX, toY, connection.fromX, connection.fromY).rightX},
-                ${getArrowPoints(toX, toY, connection.fromX, connection.fromY).rightY}
+    <!-- Straight line -->
+    <line v-if="shorterToCoords" :x1="connection.fromX" :y1="connection.fromY" :x2="shorterToCoords.x"
+        :y2="shorterToCoords.y" stroke="black" stroke-width="2" />
+    <!-- Arrowhead -->
+    <polygon v-if="shorterToCoords" :points="`
+                ${shorterToCoords.x},
+                ${shorterToCoords.y}
+                ${getArrowPoints(shorterToCoords.x, shorterToCoords.y, connection.fromX, connection.fromY).leftX},
+                ${getArrowPoints(shorterToCoords.x, shorterToCoords.y, connection.fromX, connection.fromY).leftY}
+                ${getArrowPoints(shorterToCoords.x, shorterToCoords.y, connection.fromX, connection.fromY).rightX},
+                ${getArrowPoints(shorterToCoords.x, shorterToCoords.y, connection.fromX, connection.fromY).rightY}
             `" fill="black" />
-    </svg>
 </template>
+
+<style scoped lang="css">
+line {
+    opacity: 0.2;
+}
+
+polygon {
+    opacity: 0.2;
+}
+</style>
