@@ -140,8 +140,51 @@
         {
           "title": "Takaisin omaan huoneeseen",
           "nextScene": "ggbdib796"
+        },
+        {
+          "title": "Mene eteiseen",
+          "nextScene": "2btgdik0r"
         }
       ],
+      "evolutions": {}
+    },
+    "2btgdik0r": {
+      "id": "2btgdik0r",
+      "title": "Ulkoeteinen",
+      "text": "Olet ulko-oven luona",
+      "actions": [
+        {
+          "title": "Mene olohuoneeseen",
+          "nextScene": "zc5rfhvfa"
+        },
+        {
+          "title": "Pue ulkovaatteet",
+          "nextScene": "y6a8ylzd6"
+        }
+      ],
+      "evolutions": {}
+    },
+    "y6a8ylzd6": {
+      "id": "y6a8ylzd6",
+      "title": "Ulkovaatteet",
+      "text": "Puet ulkovaatteet päällesi",
+      "actions": [
+        {
+          "title": "Riisu vaatteet",
+          "nextScene": "2btgdik0r"
+        },
+        {
+          "title": "Mene ulos",
+          "nextScene": "d7rhdvtyf"
+        }
+      ],
+      "evolutions": {}
+    },
+    "d7rhdvtyf": {
+      "id": "d7rhdvtyf",
+      "title": "Ulkona",
+      "text": "Onneksi olkoon! Pääsit ulos talosta ja voitit pelin.",
+      "actions": [],
       "evolutions": {}
     }
   }

@@ -130,10 +130,50 @@
       "y": 1532,
       "actionPositions": [
         {
+          "x": 248.5,
+          "y": 377
+        },
+        {
           "x": 201.5,
           "y": 447
         }
       ]
+    },
+    "2btgdik0r": {
+      "id": "2btgdik0r",
+      "x": 156,
+      "y": 2252,
+      "actionPositions": [
+        {
+          "x": 249,
+          "y": 377
+        },
+        {
+          "x": 201,
+          "y": 447
+        }
+      ]
+    },
+    "y6a8ylzd6": {
+      "id": "y6a8ylzd6",
+      "x": 906,
+      "y": 2307,
+      "actionPositions": [
+        {
+          "x": 127.5,
+          "y": 447
+        },
+        {
+          "x": 292.5,
+          "y": 447
+        }
+      ]
+    },
+    "d7rhdvtyf": {
+      "id": "d7rhdvtyf",
+      "x": 435,
+      "y": 2907,
+      "actionPositions": []
     }
   },
   "textboxes": {}
