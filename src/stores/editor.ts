@@ -46,8 +46,11 @@ export const useEditorStore = defineStore('editor', () => {
         scenes: {},
         textboxes: {},
     });
+    // Load possible game name from query params
+    const gameName = new URLSearchParams(window.location.search).get('game')
+    const fileName = gameName ? `${gameName}-editor-state.json` : 'editor-state.json'
     const jsonSaver = useJsonSaver();
-    jsonSaver.loadJsonFromDisk('editor-state.json').then((jsonFromDisk) => {
+    jsonSaver.loadJsonFromDisk(fileName).then((jsonFromDisk) => {
         console.log('jsonFromDisk', jsonFromDisk)
         if (jsonFromDisk) {
             state.value = jsonFromDisk
@@ -109,7 +112,7 @@ export const useEditorStore = defineStore('editor', () => {
         watch(state, () => {
             console.log('Saving editor state to disk')
             // Send update to connectionStore
-            jsonSaver.saveJsonToDisk(state.value, 'editor-state.json')
+            jsonSaver.saveJsonToDisk(state.value, fileName)
         }, { deep: true })
     }
 

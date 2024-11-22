@@ -47,8 +47,10 @@ export const useGameStore = defineStore('game', () => {
   const state = ref<GameData>({
     scenes: {},
   });
+  const gameName = new URLSearchParams(window.location.search).get('game')
+  const fileName = gameName ? `${gameName}-game.json` : 'game.json'
   const jsonSaver = useJsonSaver();
-  jsonSaver.loadJsonFromDisk('game.json').then((jsonFromDisk) => {
+  jsonSaver.loadJsonFromDisk(fileName).then((jsonFromDisk) => {
     console.log('jsonFromDisk', jsonFromDisk)
     if (jsonFromDisk) {
       console.log('setting jsonFromDisk', jsonFromDisk)
@@ -250,7 +252,7 @@ export const useGameStore = defineStore('game', () => {
 
   const watchForChanges = () => {
     watch(state, () => {
-      jsonSaver.saveJsonToDisk(state.value, 'game.json')
+      jsonSaver.saveJsonToDisk(state.value, fileName)
     }, { deep: true })
   }
 

@@ -1,0 +1,148 @@
+{
+  "scenes": {
+    "sxl7nk082": {
+      "id": "sxl7nk082",
+      "title": "Oma huone",
+      "text": "Heräät omasta sängystäsi. Tehtävänäsi on päästä talosta pois.",
+      "actions": [
+        {
+          "title": "Nouse sängystä",
+          "nextScene": "ggbdib796"
+        },
+        {
+          "title": "Jatka unia",
+          "nextScene": "8grmgiuof"
+        }
+      ],
+      "evolutions": {}
+    },
+    "8grmgiuof": {
+      "id": "8grmgiuof",
+      "title": "Nukkumassa",
+      "text": "Yrität nukkua, mutta uni ei tule. Varmaan koska on jo aamu.",
+      "actions": [
+        {
+          "title": "Herää",
+          "nextScene": "sxl7nk082"
+        }
+      ],
+      "evolutions": {}
+    },
+    "ggbdib796": {
+      "id": "ggbdib796",
+      "title": "Oma huone",
+      "text": "Nouset sängystä ja katselet ympärillesi.",
+      "actions": [
+        {
+          "title": "Mene ovesta",
+          "nextScene": "zc5rfhvfa"
+        },
+        {
+          "title": "Mene sänkyyn",
+          "nextScene": "8grmgiuof"
+        },
+        {
+          "title": "Tutki kaappia",
+          "nextScene": "16n6g38gg"
+        }
+      ],
+      "evolutions": {}
+    },
+    "16n6g38gg": {
+      "id": "16n6g38gg",
+      "title": "Kaappi",
+      "text": "Kaapissa näkyy leluja. Muumitietokone ja pikkuautoja",
+      "actions": [
+        {
+          "title": "Poistu kaapista",
+          "nextScene": "ggbdib796"
+        },
+        {
+          "title": "Leiki pikkuautoilla",
+          "nextScene": "cv38m8s3m"
+        },
+        {
+          "title": "Leiki muumitietokoneella",
+          "nextScene": "z04hp03a3"
+        }
+      ],
+      "evolutions": {}
+    },
+    "cv38m8s3m": {
+      "id": "cv38m8s3m",
+      "title": "Pikkuautoleikki",
+      "text": "Leikit pikkuautoilla. Vruum vruum!",
+      "actions": [
+        {
+          "title": "Lopeta leikki",
+          "nextScene": "16n6g38gg"
+        }
+      ],
+      "evolutions": {}
+    },
+    "z04hp03a3": {
+      "id": "z04hp03a3",
+      "title": "Muumitietokone",
+      "text": "Pelaat muumitietokoneella peliä. Kone kysyy: Millä kirjaimella alkaa \"Bikinit\"?",
+      "actions": [
+        {
+          "title": "B",
+          "nextScene": "o8twx0m52"
+        },
+        {
+          "title": "Lopeta",
+          "nextScene": "16n6g38gg"
+        },
+        {
+          "title": "P",
+          "nextScene": "7g1lxd5ex"
+        },
+        {
+          "title": "A",
+          "nextScene": "7g1lxd5ex"
+        },
+        {
+          "title": "E",
+          "nextScene": "7g1lxd5ex"
+        }
+      ],
+      "evolutions": {}
+    },
+    "7g1lxd5ex": {
+      "id": "7g1lxd5ex",
+      "title": "Väärin",
+      "text": "Oijoi, yritä uudelleen.",
+      "actions": [
+        {
+          "title": "Yritä uudelleen",
+          "nextScene": "z04hp03a3"
+        }
+      ],
+      "evolutions": {}
+    },
+    "o8twx0m52": {
+      "id": "o8twx0m52",
+      "title": "Oikein",
+      "text": "Hyvä, oikein meni!",
+      "actions": [
+        {
+          "title": "Lopeta peli",
+          "nextScene": "16n6g38gg"
+        }
+      ],
+      "evolutions": {}
+    },
+    "zc5rfhvfa": {
+      "id": "zc5rfhvfa",
+      "title": "Olohuone",
+      "text": "Olet nyt olohuoneessa.",
+      "actions": [
+        {
+          "title": "Takaisin omaan huoneeseen",
+          "nextScene": "ggbdib796"
+        }
+      ],
+      "evolutions": {}
+    }
+  }
+}
