@@ -57,7 +57,7 @@ export function useJsonSaver() {
     // Try to load the JSON data from the server in path `/filename
     // If the file is not found, return null
     try {
-      const response = await fetch(`${fileName}`);
+      const response = await fetch(`${fileName}?var=${Date.now()}`);
       if (response.ok) {
         return await response.json();
       }

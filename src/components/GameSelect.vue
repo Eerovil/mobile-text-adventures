@@ -5,7 +5,7 @@ import Game from './Game.vue';
 // Find possible games
 
 const gameChoices = ref<string[]>([]);
-fetch(`gamelist.json`).then(async (response) => {
+fetch(`gamelist.json?var=${Math.random()}`).then(async (response) => {
     const games = await response.json();
     gameChoices.value = games;
 });
