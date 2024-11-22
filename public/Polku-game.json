@@ -1,0 +1,231 @@
+{
+  "scenes": {
+    "q1aci5lvf": {
+      "id": "q1aci5lvf",
+      "title": "Metsän reunalla",
+      "text": "Olet metsän reunalla",
+      "actions": [
+        {
+          "title": "Mene bussipysäkille",
+          "nextScene": "s61e9virj"
+        },
+        {
+          "title": "Mene metsään",
+          "nextScene": "3tn9alsl9"
+        }
+      ],
+      "evolutions": {}
+    },
+    "s61e9virj": {
+      "id": "s61e9virj",
+      "title": "",
+      "text": "Bussipysäkillä ei näy ihmisiä.",
+      "actions": [
+        {
+          "title": "Katso aikataulua",
+          "nextScene": "6i5n5bp5u"
+        },
+        {
+          "title": "Takaisin",
+          "nextScene": "q1aci5lvf"
+        }
+      ],
+      "evolutions": {}
+    },
+    "6i5n5bp5u": {
+      "id": "6i5n5bp5u",
+      "title": "",
+      "text": "Aikataulussa lukee, että seuraava bussi tulee tunnin kuluttua.",
+      "actions": [
+        {
+          "title": "Odottele tunti",
+          "nextScene": "9erh3wrx7"
+        },
+        {
+          "title": "Takaisin",
+          "nextScene": "s61e9virj"
+        }
+      ],
+      "evolutions": {}
+    },
+    "9erh3wrx7": {
+      "id": "9erh3wrx7",
+      "title": "",
+      "text": "Odottelet bussia. Vielä 55 minuuttia. Vielä 50 minuuttia. Vielä 45 minuutta. Äh! Ei jaksa odotella.",
+      "actions": [
+        {
+          "title": "Mene metsän reunalle",
+          "nextScene": "q1aci5lvf"
+        }
+      ],
+      "evolutions": {}
+    },
+    "3tn9alsl9": {
+      "id": "3tn9alsl9",
+      "title": "Polku",
+      "text": "Löysit metsästä polun, ja lähdit kulkemaan sitä. Polkuun tuli risteys.",
+      "actions": [
+        {
+          "title": "Vasen",
+          "nextScene": "5t0pf1jc5"
+        },
+        {
+          "title": "Oikea",
+          "nextScene": "690qjiteb"
+        }
+      ],
+      "evolutions": {}
+    },
+    "5t0pf1jc5": {
+      "id": "5t0pf1jc5",
+      "title": "Vasen",
+      "text": "Vasemman reitin varrella on mökki.",
+      "actions": [
+        {
+          "title": "Takaisin",
+          "nextScene": "3tn9alsl9"
+        },
+        {
+          "title": "Koputa mökin ovelle",
+          "nextScene": "0pw58y4tm"
+        }
+      ],
+      "evolutions": {}
+    },
+    "690qjiteb": {
+      "id": "690qjiteb",
+      "title": "Oikea",
+      "text": "Polku päättyy lammen rannalle.",
+      "actions": [
+        {
+          "title": "Heitä kivi lampeen",
+          "nextScene": "2ly8ihgm6"
+        },
+        {
+          "title": "Takaisin",
+          "nextScene": "3tn9alsl9"
+        }
+      ],
+      "evolutions": {}
+    },
+    "0pw58y4tm": {
+      "id": "0pw58y4tm",
+      "title": "Ovella",
+      "text": "Koputat mökin oveen. -Kuka siellä, ääni kysyy.",
+      "actions": [
+        {
+          "title": "Olen varas",
+          "nextScene": "7106fz43s"
+        },
+        {
+          "title": "Olen eksynyt",
+          "nextScene": "dpj4h489p"
+        }
+      ],
+      "evolutions": {}
+    },
+    "7106fz43s": {
+      "id": "7106fz43s",
+      "title": "",
+      "text": "Mene pois!",
+      "actions": [
+        {
+          "title": "Poistu",
+          "nextScene": "5t0pf1jc5"
+        }
+      ],
+      "evolutions": {}
+    },
+    "dpj4h489p": {
+      "id": "dpj4h489p",
+      "title": "",
+      "text": "Ovi aukeaa. Mökissä asuu oikea tonttu!",
+      "actions": [
+        {
+          "title": "\"Kuka olet\"",
+          "nextScene": "fbo88rfic"
+        },
+        {
+          "title": "Juokse karkuun",
+          "nextScene": "q1aci5lvf"
+        }
+      ],
+      "evolutions": {}
+    },
+    "fbo88rfic": {
+      "id": "fbo88rfic",
+      "title": "",
+      "text": "Olen tonttu. Tarvitsetko apua?",
+      "actions": [
+        {
+          "title": "Minulla on tylsää",
+          "nextScene": "d76i8xcvz"
+        }
+      ],
+      "evolutions": {}
+    },
+    "d76i8xcvz": {
+      "id": "d76i8xcvz",
+      "title": "",
+      "text": "Tonttu sanoo: \"Kannattaa lähteä kotiin pelaamaan\". -Bussi tulee ihan kohta.",
+      "actions": [
+        {
+          "title": "Juokse bussipysäkille",
+          "nextScene": "zepjfr1fr"
+        }
+      ],
+      "evolutions": {}
+    },
+    "zepjfr1fr": {
+      "id": "zepjfr1fr",
+      "title": "",
+      "text": "Juokset bussipysäkille. Juuri kun saavut, bussi tulee.",
+      "actions": [
+        {
+          "title": "Nouse bussiin",
+          "nextScene": "04wyproe2"
+        },
+        {
+          "title": "Mene metsän reunalle",
+          "nextScene": "q1aci5lvf"
+        }
+      ],
+      "evolutions": {}
+    },
+    "04wyproe2": {
+      "id": "04wyproe2",
+      "title": "",
+      "text": "Menet bussilla kotiin. Peli loppui!",
+      "actions": [],
+      "evolutions": {}
+    },
+    "2ly8ihgm6": {
+      "id": "2ly8ihgm6",
+      "title": "",
+      "text": "Heität kiven veteen. Se molskahtaa kivasti.",
+      "actions": [
+        {
+          "title": "Takaisin",
+          "nextScene": "690qjiteb"
+        },
+        {
+          "title": "Heitä iso kivi",
+          "nextScene": "gsmiodr10"
+        }
+      ],
+      "evolutions": {}
+    },
+    "gsmiodr10": {
+      "id": "gsmiodr10",
+      "title": "",
+      "text": "Heität ison kiven. Se loiskahtaa niin että vaatteille lentää pisaroita.",
+      "actions": [
+        {
+          "title": "Takaisin",
+          "nextScene": "690qjiteb"
+        }
+      ],
+      "evolutions": {}
+    }
+  }
+}
