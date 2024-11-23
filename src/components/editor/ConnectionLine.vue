@@ -19,6 +19,10 @@ const shorterToCoords = computed(() => {
     if (!toX.value || !toY.value) {
         return null;
     }
+    if (!connection.toX || !connection.toY) {
+        // If the connection is not yet finished, return the mouse position
+        return { x: toX.value, y: toY.value };
+    }
     const angle = Math.atan2(toY.value - connection.fromY, toX.value - connection.fromX);
     const x = toX.value - shortenBy * Math.cos(angle);
     const y = toY.value - shortenBy * Math.sin(angle);

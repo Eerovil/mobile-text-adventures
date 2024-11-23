@@ -13,6 +13,7 @@ const props = defineProps<{
 const editingElement = ref<HTMLElement | null>(null);
 const gameStore = useGameStore();
 const title = useTemplateRef('title');
+const gameProgression = useTemplateRef('gameProgression');
 
 const setTitle = () => {
     if (!title.value) {
@@ -27,9 +28,19 @@ const setTitle = () => {
     gameStore.setActionValue(props.action, 'title', title.value.innerText.trim());
 };
 
+const setGameProgression = () => {
+    if (!gameProgression.value) {
+        return;
+    }
+    gameStore.setActionValue(props.action, 'gameProgression', gameProgression.value.innerText.trim());
+};
+
 const setEditingElement = (element: string) => {
     if (element === 'title') {
         editingElement.value = title.value;
+    }
+    if (element === 'gameProgression') {
+        editingElement.value = gameProgression.value;
     }
 };
 
@@ -56,8 +67,13 @@ onMounted(() => {
         <h1 ref="title" class="not-draggable title-edit" contenteditable spellcheck="false"
             @mousedown="setEditingElement('title')" @blur="setTitle">{{
                 action.title }}</h1>
-        <div ref="connector" class="connector" @click="startConnecting">
-            #
+        <div class="extra">
+            <div ref="connector" class="connector" @click="startConnecting">
+                #
+            </div>
+            <h1 ref="gameProgression" class="not-draggable gameProgression-edit" contenteditable spellcheck="false"
+                @mousedown="setEditingElement('gameProgression')" @blur="setGameProgression">{{
+                    action.gameProgression }}</h1>
         </div>
     </div>
 </template>
@@ -74,7 +90,7 @@ onMounted(() => {
     align-items: center;
     justify-content: center;
     width: fit-content;
-    height: 50px;
+    height: 100px;
     background-color: #f0f0f0;
     border-radius: 10px;
     padding: 10px;
@@ -90,5 +106,16 @@ onMounted(() => {
 
 .connector {
     cursor: pointer;
+}
+
+.extra {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+h1[contenteditable] {
+    border: 1px solid #ccc;
+    min-width: 20px;
 }
 </style>

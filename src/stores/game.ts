@@ -2,6 +2,7 @@ import { ref, computed, watch } from 'vue'
 import { defineStore } from 'pinia'
 import { useJsonSaver } from '@/composables/useJsonSaver';
 import { usePanzoomStore } from './panzoom';
+import { useConnectionStore } from './connections';
 
 
 // Create type SceneId which is a string
@@ -10,6 +11,13 @@ export type GameProgressionSlug = string & { __brand: 'GameProgressionSlug' };
 
 // The game state is just a list of slugs which have happened in the game
 export type GameStateList = GameProgressionSlug[]
+
+
+export interface GameState {
+  progressions: GameProgressionSlug[]
+  visitedScenes: SceneId[]
+  currentScene?: SceneId
+}
 
 
 export interface Action {
@@ -40,13 +48,18 @@ export interface GameData {
   scenes: {
     [key: SceneId]: Scene
   },
-  gameProgressions?: GameProgressionSlug[]
 }
 
 export const useGameStore = defineStore('game', () => {
   const state = ref<GameData>({
     scenes: {},
   });
+  const gameState = ref<GameState>({
+    progressions: [],
+    visitedScenes: [],
+    currentScene: undefined,
+  });
+  const connectionStore = useConnectionStore();
   const gameName = new URLSearchParams(window.location.search).get('game')
   const fileName = gameName ? `${gameName}-game.json` : 'game.json'
   const jsonSaver = useJsonSaver();
@@ -55,8 +68,8 @@ export const useGameStore = defineStore('game', () => {
     if (jsonFromDisk) {
       console.log('setting jsonFromDisk', jsonFromDisk)
       state.value = jsonFromDisk
-      if (!currentSceneId.value) {
-        currentSceneId.value = state.value.initialScene
+      if (!gameState.value.currentScene) {
+        gameState.value.currentScene = state.value.initialScene
       }
     }
     console.log('state', state.value.scenes);
@@ -67,34 +80,45 @@ export const useGameStore = defineStore('game', () => {
     }, 10);
   });
 
-  const currentSceneId = ref<SceneId | undefined>(undefined)
-  const gameProgression = ref<GameStateList>([])
-  const currentScene = computed(() => currentSceneId.value ? state.value.scenes[currentSceneId.value] : undefined)
+  const currentScene = computed(() => gameState.value.currentScene ? state.value.scenes[gameState.value.currentScene] : undefined)
+
+  // Reset the game state
+  const resetGameState = () => {
+    gameState.value = {
+      progressions: [],
+      visitedScenes: [],
+      currentScene: state.value.initialScene
+    }
+  }
 
   // Load game state from local storage
   const loadGameState = () => {
     const state = localStorage.getItem('game-state')
     if (state) {
-      gameProgression.value = JSON.parse(state)
-    }
-    const state2 = localStorage.getItem('current-scene') as SceneId | null
-    if (state2) {
-      currentSceneId.value = state2
+      // If state is incorrect, reset it
+      if (typeof JSON.parse(state) !== 'object') {
+        resetGameState()
+        return
+      }
+      // If state has not correct keys, reset it
+      const keys = Object.keys(JSON.parse(state))
+      if (!keys.includes('progressions') || !keys.includes('visitedScenes') || !keys.includes('currentScene')) {
+        resetGameState()
+        return
+      }
+      gameState.value = JSON.parse(state)
     }
   }
-  // loadGameState();
+  loadGameState();
 
   // Save game state to local storage
   const saveGameState = () => {
-    localStorage.setItem('game-state', JSON.stringify(gameProgression.value))
-    localStorage.setItem('current-scene', currentSceneId.value || '')
+    localStorage.setItem('game-state', JSON.stringify(gameState.value))
   }
 
-  // Reset the game state
-  const resetGameState = () => {
-    gameProgression.value = []
-    currentSceneId.value = state.value.initialScene
-  }
+  watch(gameState, () => {
+    saveGameState()
+  }, { deep: true })
 
   // Go to a scene by its ID
   const getSceneById = (sceneId: SceneId | undefined) => {
@@ -104,7 +128,7 @@ export const useGameStore = defineStore('game', () => {
     const newScene = state.value.scenes[sceneId]
     // Check if the scene has an evolution based on the game state
     if (newScene.evolutions) {
-      for (const key of gameProgression.value) {
+      for (const key of gameState.value.progressions) {
         if (newScene.evolutions[key]) {
           return getSceneById(newScene.evolutions[key])
         }
@@ -114,13 +138,13 @@ export const useGameStore = defineStore('game', () => {
   }
 
   const goToScene = (sceneId: SceneId) => {
-    currentSceneId.value = getSceneById(sceneId)?.id
+    gameState.value.currentScene = getSceneById(sceneId)?.id
     saveGameState()
   }
 
   const performAction = (action: Action) => {
     if (action.gameProgression) {
-      gameProgression.value.push(action.gameProgression)
+      gameState.value.progressions.push(action.gameProgression)
     }
     if (!action.nextScene) {
       alert('Action does not have a next scene')
@@ -160,7 +184,7 @@ export const useGameStore = defineStore('game', () => {
     }
     ret.push(...Array.from(allSceneIds).map(id => state.value.scenes[id]))
     // Find all scenes that are accessible with the current game state
-    const currentScene = getSceneById(currentSceneId.value || state.value.initialScene)
+    const currentScene = getSceneById(gameState.value.currentScene || state.value.initialScene)
     if (!currentScene) {
       return ret;
     }
@@ -179,14 +203,14 @@ export const useGameStore = defineStore('game', () => {
   const createScene = () => {
     const newScene: Scene = {
       id: createRandomSceneId(),
-      title: 'New Scene',
+      title: '',
       text: '',
       actions: [],
       evolutions: {}
     }
     state.value.scenes[newScene.id] = newScene
-    if (!currentSceneId.value) {
-      currentSceneId.value = newScene.id
+    if (!gameState.value.currentScene) {
+      gameState.value.currentScene = newScene.id
     }
     return newScene
   }
@@ -205,6 +229,7 @@ export const useGameStore = defineStore('game', () => {
         }
       }
     }
+    connectionStore.redrawAllConnections()
   }
 
   const setSceneValue = (sceneId: SceneId, key: 'title' | 'text', value: string) => {
@@ -250,10 +275,43 @@ export const useGameStore = defineStore('game', () => {
     }, { deep: true })
   }
 
+  const allProgressions = computed(() => {
+    const progressions = new Set<GameProgressionSlug>()
+    for (const scene of Object.values(state.value.scenes)) {
+      for (const action of scene.actions) {
+        if (action.gameProgression) {
+          progressions.add(action.gameProgression)
+        }
+      }
+    }
+    return Array.from(progressions)
+  });
+
+  const addProgression = (progression: GameProgressionSlug) => {
+    console.log('addProgression', progression)
+    if (!gameState.value.progressions) {
+      gameState.value.progressions = []
+    }
+    if (!gameState.value.progressions.includes(progression)) {
+      gameState.value.progressions.push(progression)
+    }
+  }
+
+  const removeProgression = (progression: GameProgressionSlug) => {
+    if (!gameState.value.progressions) {
+      return
+    }
+    const index = gameState.value.progressions.indexOf(progression)
+    if (index !== -1) {
+      gameState.value.progressions.splice(index, 1)
+    }
+  }
+
   return {
     state,
-    currentSceneId,
-    gameProgression,
+    gameState,
+    currentSceneId: computed(() => gameState.value.currentScene),
+    gameProgression: computed(() => gameState.value.progressions),
     currentScene,
     loadGameState,
     saveGameState,
@@ -270,5 +328,8 @@ export const useGameStore = defineStore('game', () => {
     joinActionToScene,
     setActionValue,
     disconnectAction,
+    allProgressions,
+    addProgression,
+    removeProgression,
   }
 });

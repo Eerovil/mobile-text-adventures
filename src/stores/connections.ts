@@ -142,6 +142,13 @@ export const useConnectionStore = defineStore('connections', () => {
         redrawAllConnections();
     });
 
+    const cancelConnection = () => {
+        if (state.value.connectionInProgress) {
+            deleteConnection(state.value.connectionInProgress)
+            state.value.connectionInProgress = undefined
+        }
+    }
+
     return {
         state,
         addConnection,
@@ -149,5 +156,7 @@ export const useConnectionStore = defineStore('connections', () => {
         setMousePosition,
         finishConnection,
         setSceneCoordinates,
+        cancelConnection,
+        redrawAllConnections,
     }
 });

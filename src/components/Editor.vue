@@ -3,9 +3,9 @@
 import Panzoom from '@panzoom/panzoom'
 import ConnectionLine from './editor/ConnectionLine.vue'
 
-import { useTemplateRef, computed, onMounted } from 'vue';
+import { useTemplateRef, computed, onMounted, ref, watch } from 'vue';
 
-import { useGameStore, type SceneId } from '../stores/game';
+import { useGameStore, type GameProgressionSlug, type SceneId } from '../stores/game';
 import { useEditorStore } from '../stores/editor';
 import type { SceneWithMeta } from '../stores/editor';
 
@@ -95,8 +95,27 @@ onMounted(() => {
       y: event.offsetY,
     });
   });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      connectionsStore.cancelConnection();
+    }
+  });
+
 })
 
+const progressionsEnabled = ref<Record<GameProgressionSlug, boolean>>({});
+
+watch(progressionsEnabled, (newProgressionsEnabled) => {
+  for (const progressionStr in newProgressionsEnabled) {
+    const progression = progressionStr as GameProgressionSlug;
+    if (newProgressionsEnabled[progression]) {
+      gameStore.addProgression(progression);
+    } else {
+      gameStore.removeProgression(progression);
+    }
+  }
+}, { deep: true });
 </script>
 
 <template>
@@ -110,6 +129,16 @@ onMounted(() => {
         :connection="connection" />
     </svg>
   </main>
+
+  <div class="sidebar">
+    <h2>Progressions</h2>
+    <div class="progressions">
+      <div v-for="progression in gameStore.allProgressions" :key="progression">
+        <input type="checkbox" :id="`progression-${progression}`" v-model="progressionsEnabled[progression]" />
+        <label :for="`progression-${progression}`">{{ progression }}</label>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -127,5 +156,27 @@ onMounted(() => {
   top: 0;
   left: 0;
   pointer-events: none;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 100vh;
+  background-color: #f0f0f0;
+  border-right: 1px solid #ccc;
+  box-shadow: #000000 0 0 10px;
+  color: black;
+  padding: 0.5rem;
+}
+
+.progressions {
+  display: flex;
+  flex-direction: column;
+}
+
+.progressions input {
+  margin-right: 0.5rem;
 }
 </style>
