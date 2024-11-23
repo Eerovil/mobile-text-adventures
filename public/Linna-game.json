@@ -1,0 +1,19 @@
+{
+  "scenes": {
+    "u03kqvsvo": {
+      "id": "u03kqvsvo",
+      "title": "Sänky",
+      "text": "Heräät sängystäsi",
+      "actions": [
+        {
+          "title": "Jatka unia"
+        },
+        {
+          "title": "Nouse sängystä"
+        }
+      ],
+      "evolutions": {},
+      "text2": "Olet sängyssä"
+    }
+  }
+}

@@ -22,7 +22,6 @@ const editorStore = useEditorStore();
 const currentScenesWithMeta = computed(() => {
   const ret: Record<SceneId, SceneWithMeta> = {};
   for (const scene of gameStore.allCurrentScenes) {
-    console.log('Scene', scene.id);
     if (!editorStore.state.scenes[scene.id]) {
       continue;
     }
@@ -58,7 +57,10 @@ onMounted(() => {
     const newScene = createScene(e.offsetX, e.offsetY);
     // If currently connecting, connect to this scene
     if (connectionsStore.state.connectionInProgress) {
-      connectionsStore.finishConnection(newScene.id);
+      const connection = connectionsStore.finishConnection(newScene.id);
+      if (connection) {
+        gameStore.generateScene(connection);
+      }
     }
   });
   const panzoom = Panzoom(elem, {

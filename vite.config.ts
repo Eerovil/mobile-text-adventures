@@ -6,6 +6,10 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 import path from 'path';
 import fs from 'fs';
 import { IncomingMessage, ServerResponse } from 'http';
+import OpenAI from 'openai';
+
+import dotenv from 'dotenv';
+dotenv.config();
 
 const writeJsonPlugin = (): PluginOption => ({
   name: 'write-json',
@@ -47,6 +51,46 @@ const writeJsonPlugin = (): PluginOption => ({
   },
 });
 
+// Define the OpenAI plugin
+const useOpenAIPlugin = (): PluginOption => ({
+  name: 'openai-proxy',
+  configureServer(server: ViteDevServer) {
+    server.middlewares.use('/openai', (req: IncomingMessage, res: ServerResponse) => {
+      if (req.method === 'POST') {
+        let body = '';
+
+        req.on('data', (chunk) => {
+          body += chunk.toString();
+        });
+
+        req.on('end', async () => {
+          try {
+            const prompt = JSON.parse(body);
+
+            // Initialize OpenAI API
+            const openai = new OpenAI({
+              apiKey: process.env.OPENAI_API_KEY,
+            });
+
+            // Call OpenAI API
+            const completion = await openai.chat.completions.create(prompt);
+
+            // Send back the response
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(completion));
+          } catch (err) {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: false, error: (err as Error).message }));
+          }
+        });
+      } else {
+        res.writeHead(405, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, message: 'Method not allowed' }));
+      }
+    });
+  },
+});
+
 // https://vite.dev/config/
 export default defineConfig({
   base: '/mobile-text-adventures/',
@@ -57,6 +101,7 @@ export default defineConfig({
     vue(),
     vueDevTools(),
     writeJsonPlugin(),
+    useOpenAIPlugin(),
   ],
   resolve: {
     alias: {

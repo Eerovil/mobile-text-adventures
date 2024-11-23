@@ -106,6 +106,10 @@
         {
           "title": "Takaisin",
           "nextScene": "3tn9alsl9"
+        },
+        {
+          "title": "Heitä hattu lampeen",
+          "nextScene": "trot7h74f"
         }
       ],
       "evolutions": {}
@@ -198,7 +202,12 @@
       "id": "04wyproe2",
       "title": "",
       "text": "Menet bussilla kotiin. Peli loppui!",
-      "actions": [],
+      "actions": [
+        {
+          "title": "New Action",
+          "nextScene": "vsuuuyamp"
+        }
+      ],
       "evolutions": {}
     },
     "2ly8ihgm6": {
@@ -228,6 +237,115 @@
         }
       ],
       "evolutions": {}
+    },
+    "vsuuuyamp": {
+      "id": "vsuuuyamp",
+      "title": "",
+      "text": "",
+      "actions": [],
+      "evolutions": {}
+    },
+    "trot7h74f": {
+      "id": "trot7h74f",
+      "title": "Hatun Hetki",
+      "text": "Heität hattusi lampeen. Se kelluu rauhallisesti.",
+      "actions": [
+        {
+          "title": "Katsella lammesta",
+          "nextScene": "4zetg0shj"
+        },
+        {
+          "title": "Palata polulle",
+          "nextScene": "690qjiteb"
+        }
+      ],
+      "evolutions": {},
+      "text2": ""
+    },
+    "4zetg0shj": {
+      "id": "4zetg0shj",
+      "title": "Lammen Rannalla",
+      "text": "Seuraat hattusi liikkeitä lammen pinnalla. Se näyttää rauhalliselta ja kauniilta.",
+      "actions": [
+        {
+          "title": "Lähde uimaan",
+          "nextScene": "sde7g23zw"
+        },
+        {
+          "title": "Tee jotain muuta",
+          "nextScene": "uutiot"
+        }
+      ],
+      "evolutions": {},
+      "text2": ""
+    },
+    "sde7g23zw": {
+      "id": "sde7g23zw",
+      "title": "Uimassa Lampeessa",
+      "text": "Päätä hypätä lampeen. Vesi on virkistävää ja raikasta.",
+      "actions": [
+        {
+          "title": "Uida syvemmälle",
+          "nextScene": "w7h4un6up"
+        },
+        {
+          "title": "Palata rannalle",
+          "nextScene": "4zetg0shj"
+        }
+      ],
+      "evolutions": {},
+      "text2": ""
+    },
+    "w7h4un6up": {
+      "id": "w7h4un6up",
+      "title": "Syvällä Lampeessa",
+      "text": "Uidessasi syvemmälle näet kirkkaita kaloja. Vesi ympärilläsi on viileää ja rauhoittavaa.",
+      "actions": [
+        {
+          "title": "Tutkia pohjaa",
+          "nextScene": "b2t7k3dwp"
+        },
+        {
+          "title": "Palata pintaan",
+          "nextScene": "l3jx7fuj9"
+        }
+      ],
+      "evolutions": {},
+      "text2": ""
+    },
+    "l3jx7fuj9": {
+      "id": "l3jx7fuj9",
+      "title": "Pinnalla Lampea",
+      "text": "Pinnalle noustessasi tunnet auringon lämpimät säteet. Vesi valuu edelleen iholtasi.",
+      "actions": [
+        {
+          "title": "Kuivata itsesi",
+          "nextScene": "dxz15smm1"
+        },
+        {
+          "title": "Uida takaisin lampeen",
+          "nextScene": "w7h4un6up"
+        }
+      ],
+      "evolutions": {},
+      "text2": ""
+    },
+    "dxz15smm1": {
+      "id": "dxz15smm1",
+      "title": "Kuivattuna rannalla",
+      "text": "Kun kuivaat itsesi, tunnet auringon lämmön. Rannan hiekka on pehmeää jalkojesi alla.",
+      "actions": [
+        {
+          "title": "Tutkia rantaa",
+          "nextScene": "x2aeriuc3"
+        },
+        {
+          "title": "Palata lampeen",
+          "nextScene": "w7h4un6up"
+        }
+      ],
+      "evolutions": {},
+      "text2": ""
     }
   }
 }

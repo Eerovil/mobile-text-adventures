@@ -70,6 +70,7 @@ export const useConnectionStore = defineStore('connections', () => {
         if (!state.value.connectionInProgress) {
             return;
         }
+        const connectionId = state.value.connectionInProgress
         // Don't connect to the same scene
         const fromSceneId = state.value.connectionInProgress.split('-')[1] as SceneId
         if (fromSceneId === sceneId) {
@@ -89,6 +90,11 @@ export const useConnectionStore = defineStore('connections', () => {
         gameStore.joinActionToScene(action, sceneId)
 
         state.value.connectionInProgress = undefined;
+        return {
+            fromSceneId,
+            actionIndex: parseInt(connectionId.split('-')[2]),
+            toSceneId: sceneId
+        }
     }
 
     const setSceneCoordinates = (sceneId: SceneId, x: number, y: number) => {
@@ -116,6 +122,10 @@ export const useConnectionStore = defineStore('connections', () => {
     const redrawAllConnections = () => {
         // Draw all connections using the editorStore's scene positions
         // And visible scenes from gameStore
+        // Delete all connections
+        for (const key in state.value.connections) {
+            delete state.value.connections[key as ConnectionId]
+        }
         for (const scene of gameStore.allCurrentScenes) {
             for (const actionIndex in scene.actions) {
                 const action = scene.actions[actionIndex]
@@ -130,8 +140,8 @@ export const useConnectionStore = defineStore('connections', () => {
                         id: connectionId,
                         fromX: fromScene.x + fromScene.actionPositions![parseInt(actionIndex)].x,
                         fromY: fromScene.y + fromScene.actionPositions![parseInt(actionIndex)].y,
-                        toX: toScene.x,
-                        toY: toScene.y,
+                        toX: toScene.x + 250,
+                        toY: toScene.y + 250,
                         toSceneId: action.nextScene,
                     }
                 }

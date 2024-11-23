@@ -30,7 +30,8 @@ export interface EditorState {
     },
     textboxes: {
         [key: SceneId]: EditorTextBox
-    }
+    },
+    extraPrompt?: string
 }
 
 

@@ -4,6 +4,7 @@ import { useJsonSaver } from '@/composables/useJsonSaver';
 import { usePanzoomStore } from './panzoom';
 import { useConnectionStore } from './connections';
 import { useEditorStore } from './editor';
+import { aiGenerateScene } from '@/chatgpt';
 
 
 // Create type SceneId which is a string
@@ -344,6 +345,54 @@ export const useGameStore = defineStore('game', () => {
     return newScene
   }
 
+  const generateScene = async ({ fromSceneId, actionIndex, toSceneId }: { fromSceneId: SceneId, actionIndex: number, toSceneId: SceneId }) => {
+    // Try find 5 scenes by going reversely random actions
+    // to fromSceneId
+    const scenePath: Scene[] = []
+    let currentSceneId = fromSceneId
+    for (let i = 0; i < 5; i++) {
+      const scene = getSceneById(currentSceneId)
+      if (!scene) {
+        break
+      }
+      scenePath.unshift(scene)
+      // Find a scene that has an action that leads to the current scene
+      for (const otherScene of Object.values(state.value.scenes)) {
+        for (const action of otherScene.actions) {
+          if (action.nextScene === currentSceneId) {
+            currentSceneId = otherScene.id
+            break
+          }
+        }
+      }
+    }
+    const action = getSceneById(fromSceneId)?.actions[actionIndex]
+    if (!action) {
+      throw new Error('Action not found')
+    }
+    const generatedData = await aiGenerateScene(scenePath, action)
+    if (generatedData) {
+      console.log('generatedData', generatedData)
+      const toScene = getSceneById(toSceneId)
+      toScene!.title = generatedData.title
+      toScene!.text = generatedData.text
+      toScene!.text2 = generatedData.text2
+      for (const action of (generatedData.actions || [])) {
+        const newAction: Action = {
+          title: action.title,
+          nextScene: action.nextScene || undefined,
+        }
+        if (!getSceneById(newAction.nextScene)) {
+          newAction.nextScene = undefined
+        }
+        toScene!.actions.push(newAction)
+      }
+      setTimeout(() => {
+        connectionStore.redrawAllConnections()
+      }, 100)
+    }
+  }
+
   return {
     state,
     gameState,
@@ -369,6 +418,7 @@ export const useGameStore = defineStore('game', () => {
     addProgression,
     removeProgression,
     createEvolution,
-    setInitialScene: (sceneId: SceneId) => { state.value.initialScene = sceneId }
+    setInitialScene: (sceneId: SceneId) => { state.value.initialScene = sceneId },
+    generateScene,
   }
 });
