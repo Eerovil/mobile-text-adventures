@@ -42,6 +42,7 @@ const createScene = (x: number, y: number) => {
   console.log('Creating scene');
   const scene = gameStore.createScene();
   editorStore.moveScene(scene.id, Math.floor(scaledX), Math.floor(scaledY));
+  return scene;
 }
 
 const editorRef = useTemplateRef('editor');
@@ -54,7 +55,11 @@ onMounted(() => {
   const elem = editorRef.value;
   elem.addEventListener('contextmenu', (e) => {
     e.preventDefault();
-    createScene(e.offsetX, e.offsetY);
+    const newScene = createScene(e.offsetX, e.offsetY);
+    // If currently connecting, connect to this scene
+    if (connectionsStore.state.connectionInProgress) {
+      connectionsStore.finishConnection(newScene.id);
+    }
   });
   const panzoom = Panzoom(elem, {
     maxScale: 1,

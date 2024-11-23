@@ -205,7 +205,7 @@ export const useGameStore = defineStore('game', () => {
     }
   }
 
-  const createScene = () => {
+  const createScene = (): Scene => {
     const newScene: Scene = {
       id: createRandomSceneId(),
       title: '',
