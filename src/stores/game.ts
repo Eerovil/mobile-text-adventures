@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import { useJsonSaver } from '@/composables/useJsonSaver';
 import { usePanzoomStore } from './panzoom';
 import { useConnectionStore } from './connections';
+import { useEditorStore } from './editor';
 
 
 // Create type SceneId which is a string
@@ -30,6 +31,7 @@ export interface Action {
 
 export interface Scene {
   id: SceneId
+  ogId?: SceneId
   title: string
   text: string
   text2?: string
@@ -171,42 +173,27 @@ export const useGameStore = defineStore('game', () => {
     goToScene(action.nextScene)
   }
 
-  const getSceneChildren = (scene: Scene, handledSceneIds?: Set<SceneId>): Scene[] => {
-    // Find all scenes that are accessible from the current scene, recursively
-    const children = scene.actions.map(action => action.nextScene)
-    // Children is an array of scene IDs
-    handledSceneIds = handledSceneIds || new Set()
-    return children.flatMap(childId => {
-      const child = getSceneById(childId)
-      if (handledSceneIds.has(childId as SceneId)) {
-        if (child) {
-          return [child]
-        }
-      }
-      handledSceneIds!.add(childId as SceneId)
-      if (child) {
-        return [child, ...getSceneChildren(child, handledSceneIds)]
-      }
-      return [];
-    })
-  }
-
   const allCurrentScenes = computed(() => {
-    const ret: Scene[] = [];
-    // Add all scenes that are not connected to any scene
-    const allSceneIds = new Set(Object.keys(state.value.scenes).map(id => id as SceneId))
+    const progressionRequiredForScene: Record<SceneId, GameProgressionSlug> = {}
     for (const scene of Object.values(state.value.scenes)) {
-      for (const action of scene.actions.filter(action => !!action.nextScene)) {
-        allSceneIds.delete(action.nextScene as SceneId)
+      for (const progressionStr in scene.evolutions) {
+        const progression = progressionStr as GameProgressionSlug
+        progressionRequiredForScene[scene.evolutions[progression] as SceneId] = progression
       }
     }
-    ret.push(...Array.from(allSceneIds).map(id => state.value.scenes[id]))
-    // Find all scenes that are accessible with the current game state
-    const currentScene = getSceneById(gameState.value.currentScene || state.value.initialScene)
-    if (!currentScene) {
-      return ret;
+    const ret: Record<SceneId, Scene> = {}
+    for (const sceneId of Object.keys(state.value.scenes)) {
+      const scene = getSceneById(sceneId as SceneId)
+      if (scene) {
+        if (progressionRequiredForScene[scene.id]) {
+          if (!gameState.value.progressions.includes(progressionRequiredForScene[scene.id])) {
+            continue
+          }
+        }
+        ret[scene.id] = scene
+      }
     }
-    return [currentScene, ...ret, ...getSceneChildren(currentScene)]
+    return Object.values(ret)
   });
 
   const createRandomSceneId = () => {
@@ -312,6 +299,17 @@ export const useGameStore = defineStore('game', () => {
     }
     if (!gameState.value.progressions.includes(progression)) {
       gameState.value.progressions.push(progression)
+      // Set current scene to the nextScene of the action that causes the progression
+      for (const scene of Object.values(state.value.scenes)) {
+        for (const action of scene.actions) {
+          if (action.gameProgression === progression) {
+            if (action.nextScene) {
+              gameState.value.currentScene = action.nextScene
+              return
+            }
+          }
+        }
+      }
     }
   }
 
@@ -323,6 +321,27 @@ export const useGameStore = defineStore('game', () => {
     if (index !== -1) {
       gameState.value.progressions.splice(index, 1)
     }
+  }
+
+  const editorStore = useEditorStore();
+
+  const createEvolution = (sceneId: SceneId, progression: GameProgressionSlug) => {
+    // Create a new scene with the same text and actions
+    // Add the new scene to the evolutions of the given
+    // scene with the given progression
+    const scene = state.value.scenes[sceneId]
+    const newScene: Scene = {
+      id: createRandomSceneId(),
+      title: scene.title,
+      text: scene.text,
+      text2: scene.text2,
+      actions: scene.actions,
+      evolutions: {}
+    }
+    state.value.scenes[newScene.id] = newScene
+    scene.evolutions[progression] = newScene.id
+    editorStore.createEvolution(sceneId, newScene.id);
+    return newScene
   }
 
   return {
@@ -349,5 +368,7 @@ export const useGameStore = defineStore('game', () => {
     allProgressions,
     addProgression,
     removeProgression,
+    createEvolution,
+    setInitialScene: (sceneId: SceneId) => { state.value.initialScene = sceneId }
   }
 });

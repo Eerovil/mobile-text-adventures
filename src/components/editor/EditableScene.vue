@@ -6,8 +6,9 @@ import { ref, defineProps, useTemplateRef, onMounted, type Ref, watch, computed 
 
 import { useConnectionStore } from '@/stores/connections';
 import { useEditorStore, type SceneWithMeta } from '@/stores/editor';
-import { useGameStore } from '@/stores/game';
+import { useGameStore, type GameProgressionSlug, type SceneId } from '@/stores/game';
 const gameStore = useGameStore();
+const editorStore = useEditorStore();
 const connectionsStore = useConnectionStore();
 
 const props = defineProps<{
@@ -86,7 +87,6 @@ onMounted(() => {
   });
 });
 
-const editorStore = useEditorStore();
 const updateActionPositions = () => {
   setTimeout(() => {
     const elem = draggableElementRef.value;
@@ -103,7 +103,6 @@ const updateActionPositions = () => {
       // Get position within scene
       const x = actionElement.offsetLeft + actionElement.offsetWidth / 2;
       const y = actionElement.offsetTop + actionElement.offsetHeight / 2;
-      console.log('Setting action position', i, x, y);
       positions.push({ x, y });
     }
     editorStore.setActionPositions(props.sceneWithMeta.id, positions);
@@ -123,11 +122,37 @@ const selectedScene = computed({
     }
   },
 });
+
+const evolutions = computed(() => {
+  const ret: Record<string, SceneId> = {
+  }
+  for (const evolutionStr in props.sceneWithMeta.evolutions) {
+    const evolution = evolutionStr as GameProgressionSlug;
+    ret[evolution] = props.sceneWithMeta.evolutions[evolution];
+  }
+  return ret;
+});
+
+const createEvolution = () => {
+  const progressionStr = prompt('Enter progression slug');
+  if (!progressionStr) {
+    return;
+  }
+  const progression = progressionStr as GameProgressionSlug;
+  gameStore.createEvolution(props.sceneWithMeta.id, progression);
+};
+
 </script>
 <template>
   <div ref="draggableElementRef" class="draggable-element editable-scene" :class="{ tiny: zoomLevel < 0.05 }"
     @click="connectionsStore.finishConnection(props.sceneWithMeta.id);">
     <div class="values">
+      <div class="evolutions">
+        <div class="evolution" v-for="(sceneId, evolution) in evolutions" :key="evolution">
+          {{ evolution }}
+        </div>
+        <div class="evolution" @click="createEvolution">+</div>
+      </div>
       <label for="selectedScene">Selected</label>
       <input id="selectedScene" type="checkbox" v-model="selectedScene" />
       {{ sceneWithMeta.id }}
@@ -162,6 +187,7 @@ const selectedScene = computed({
   color: black;
 
   padding: 1rem;
+  padding-top: 0;
 
   display: flex;
   flex-direction: column;
@@ -186,5 +212,24 @@ const selectedScene = computed({
   border: 1px solid #919191;
   padding: 0.5rem;
   margin: 0.5rem 0;
+}
+
+.evolutions {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 40px;
+}
+
+.evolution {
+  height: 100%;
+  width: fit-content;
+  padding: 0 1rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  background-color: #f0f0f0;
+  border: 1px solid #000;
+  margin-top: -2px;
 }
 </style>

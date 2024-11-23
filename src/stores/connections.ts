@@ -123,6 +123,9 @@ export const useConnectionStore = defineStore('connections', () => {
                     const connectionId = `connection-${scene.id}-${actionIndex}` as ConnectionId
                     const fromScene = editorStore.state.scenes[scene.id]
                     const toScene = editorStore.state.scenes[action.nextScene]
+                    if (!fromScene || !fromScene.actionPositions![parseInt(actionIndex)]) {
+                        continue
+                    }
                     state.value.connections[connectionId] = {
                         id: connectionId,
                         fromX: fromScene.x + fromScene.actionPositions![parseInt(actionIndex)].x,

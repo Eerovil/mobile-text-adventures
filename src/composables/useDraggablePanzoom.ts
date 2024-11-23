@@ -40,7 +40,6 @@ export function useDraggablePanzoom(intialDraggableElement: EditorDraggableEleme
       }
       const initialX = intialDraggableElement.x || 50;
       const initialY = intialDraggableElement.y || 50;
-      console.log(intialDraggableElement.id, 'initialX', initialX, 'initialY', initialY);
       const scaledX = initialX * panzoomStore.getScale;
       const scaledY = initialY * panzoomStore.getScale;
       setTimeout(() => {

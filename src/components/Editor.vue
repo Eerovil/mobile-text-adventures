@@ -22,6 +22,7 @@ const editorStore = useEditorStore();
 const currentScenesWithMeta = computed(() => {
   const ret: Record<SceneId, SceneWithMeta> = {};
   for (const scene of gameStore.allCurrentScenes) {
+    console.log('Scene', scene.id);
     if (!editorStore.state.scenes[scene.id]) {
       continue;
     }
@@ -120,6 +121,17 @@ watch(progressionsEnabled, (newProgressionsEnabled) => {
     }
   }
 }, { deep: true });
+
+const initialSceneId = computed({
+  get: () => gameStore.state.initialScene,
+  set: (value) => {
+    if (!value) {
+      return;
+    }
+    gameStore.setInitialScene(value);
+  },
+})
+
 </script>
 
 <template>
@@ -135,6 +147,8 @@ watch(progressionsEnabled, (newProgressionsEnabled) => {
   </main>
 
   <div class="sidebar">
+    <h2>Initial</h2>
+    <input type="text" v-model="initialSceneId" />
     <h2>Progressions</h2>
     <div class="progressions">
       <div v-for="progression in gameStore.allProgressions" :key="progression">

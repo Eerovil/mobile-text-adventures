@@ -123,6 +123,11 @@ export const useEditorStore = defineStore('editor', () => {
         state.value.scenes[sceneId].actionPositions = actionPositions
     }
 
+    const createEvolution = (sceneId: SceneId, newSceneId: SceneId) => {
+        const scene = { ...state.value.scenes[sceneId], id: newSceneId }
+        state.value.scenes[newSceneId] = scene;
+    }
+
     return {
         state,
         moveScene,
@@ -130,5 +135,6 @@ export const useEditorStore = defineStore('editor', () => {
         updateTextBox,
         moveDraggableElement,
         setActionPositions,
+        createEvolution,
     }
 });
