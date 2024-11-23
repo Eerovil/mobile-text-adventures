@@ -18,6 +18,7 @@ const { zoomLevel, draggableElementRef } = useDraggablePanzoom(props.sceneWithMe
 
 const title = useTemplateRef('title');
 const text = useTemplateRef('text');
+const text2 = useTemplateRef('text2');
 const editingElement: Ref<HTMLElement | null> = ref(null);
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -36,11 +37,21 @@ const setText = (event: FocusEvent) => {
   gameStore.setSceneValue(props.sceneWithMeta.id, 'text', text.value.innerText.trim());
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const setText2 = (event: FocusEvent) => {
+  if (!text2.value) {
+    return;
+  }
+  gameStore.setSceneValue(props.sceneWithMeta.id, 'text2', text2.value.innerText.trim());
+};
+
 const setEditingElement = (element: string) => {
   if (element === 'title') {
     editingElement.value = title.value;
   } else if (element === 'text') {
     editingElement.value = text.value;
+  } else if (element === 'text2') {
+    editingElement.value = text2.value;
   }
 };
 
@@ -128,6 +139,9 @@ const selectedScene = computed({
       <p ref="text" class="not-draggable" contenteditable spellcheck="false" @mousedown="setEditingElement('text')"
         @blur="setText">{{
           sceneWithMeta.text }}</p>
+      <p ref="text2" class="not-draggable" contenteditable spellcheck="false" @mousedown="setEditingElement('text2')"
+        @blur="setText2">{{
+          sceneWithMeta.text2 }}</p>
     </div>
 
     <div class="actions">

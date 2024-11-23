@@ -32,6 +32,7 @@ export interface Scene {
   id: SceneId
   title: string
   text: string
+  text2?: string
   actions: Action[]
   evolutions: {
     // When game state contains the key, the scene will redirect to the value
@@ -80,7 +81,19 @@ export const useGameStore = defineStore('game', () => {
     }, 10);
   });
 
-  const currentScene = computed(() => gameState.value.currentScene ? state.value.scenes[gameState.value.currentScene] : undefined)
+  const currentScene = computed(() => {
+    if (!gameState.value.currentScene) {
+      return undefined
+    }
+    const scene = { ...state.value.scenes[gameState.value.currentScene] }
+    // If already visited, set text to text2 (if it is defined)
+    if (gameState.value.visitedScenes.includes(gameState.value.currentScene)) {
+      if (scene.text2) {
+        scene.text = scene.text2
+      }
+    }
+    return scene
+  });
 
   // Reset the game state
   const resetGameState = () => {
@@ -109,7 +122,7 @@ export const useGameStore = defineStore('game', () => {
       gameState.value = JSON.parse(state)
     }
   }
-  loadGameState();
+  // loadGameState();
 
   // Save game state to local storage
   const saveGameState = () => {
@@ -138,7 +151,12 @@ export const useGameStore = defineStore('game', () => {
   }
 
   const goToScene = (sceneId: SceneId) => {
+    const prevScene = gameState.value.currentScene
     gameState.value.currentScene = getSceneById(sceneId)?.id
+    if (prevScene && !gameState.value.visitedScenes.includes(prevScene)) {
+      console.log('pushing prevScene', prevScene)
+      gameState.value.visitedScenes.push(prevScene)
+    }
     saveGameState()
   }
 
@@ -232,7 +250,7 @@ export const useGameStore = defineStore('game', () => {
     connectionStore.redrawAllConnections()
   }
 
-  const setSceneValue = (sceneId: SceneId, key: 'title' | 'text', value: string) => {
+  const setSceneValue = (sceneId: SceneId, key: 'title' | 'text' | 'text2', value: string) => {
     const scene = state.value.scenes[sceneId]
     scene[key] = value
   }

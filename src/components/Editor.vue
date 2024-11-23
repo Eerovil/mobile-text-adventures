@@ -78,6 +78,10 @@ onMounted(() => {
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Tab') {
       console.log('Tab pressed');
+      // Blur current element
+      if (document.activeElement) {
+        (document.activeElement as HTMLElement).blur();
+      }
       event.preventDefault();
     }
   });

@@ -17,7 +17,7 @@ const setShowActions = (value: boolean) => {
     if (value) {
         setTimeout(() => {
             showActions.value = true;
-        }, 1000);
+        }, 500);
     }
 }
 
@@ -40,6 +40,10 @@ const nextCharacter = () => {
 
 const startShowingText = (text: string) => {
     const splitChars = ['\\.', '\\?', '!']; // Escape special characters like '.' for RegExp
+    // If the whole text doesn't env with any of splitChars, add a '.' to the end
+    if (!['.', '?', '!'].some((char) => (text.trim()).endsWith(char))) {
+        text += '.';
+    }
     textLines.value = text
         .split(new RegExp(`(${splitChars.join('|')})`)) // Use capturing group to include split chars
         .reduce((acc: string[], curr, index) => {
@@ -116,6 +120,9 @@ const selectAction = (action: Action) => {
         <div v-if="showActions" class="actions">
             <div v-for="(action, index) in currentScene.actions" :key="index" @click="selectAction(action)">{{
                 action.title }}</div>
+        </div>
+        <div v-else-if="allowNextLine">
+            <div>...</div>
         </div>
     </main>
 </template>
