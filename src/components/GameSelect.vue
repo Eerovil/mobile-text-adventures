@@ -11,6 +11,13 @@ fetch(`gamelist.json?var=${Math.random()}`).then(async (response) => {
 });
 
 const chosenGame = ref<string>('');
+if (window.location.search) {
+    const url = new URL(window.location.href);
+    const game = url.searchParams.get('game');
+    if (game) {
+        chosenGame.value = game;
+    }
+}
 
 function chooseGame(game: string) {
     chosenGame.value = game;

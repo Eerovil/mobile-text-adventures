@@ -39,6 +39,7 @@ Scene JSON Schema:
 - "text2": Optional description shown on revisits (leave blank if unused).
 - "actions": List of actions available in this scene
 - Each action has a "title" (max 30 chars) and "nextScene" (ID of the scene it leads to). Try to include an action that leads back to the previous scene, if applicable.
+- Do not include actions that jump to any scene other than the previous scene.
 
 Constraints:
 - JSON output must strictly follow the schema.
@@ -50,15 +51,45 @@ Given the current scene sequence and the selected action, generate the next scen
 export const aiGenerateScene = async (scenePath: Scene[], action: Action) => {
     const editorStore = useEditorStore();
 
+    const parsedScenePath: {
+        id?: string;
+        text: string;
+        action?: string;
+    }[] = [];
+    parsedScenePath.unshift({
+        id: scenePath[scenePath.length - 1].id,
+        text: scenePath[scenePath.length - 1].text,
+        action: action.title,
+    })
+    for (let i = scenePath.length - 2; i >= 0; i--) {
+        const scene = scenePath[i];
+        if (!scene) {
+            break;
+        }
+        const currAction = scene.actions.find(a => a.nextScene === parsedScenePath[0].id)?.title;
+        if (!currAction) {
+            console.error("No action found for scene", scene.id);
+            console.error("Scene:", scene.actions);
+        }
+        parsedScenePath.unshift({
+            id: scenePath[i].id,
+            text: scenePath[i].text,
+            action: currAction,
+        })
+    }
+    // Remove ID from all but the last scene
+    parsedScenePath.forEach((scene, index) => {
+        if (index !== parsedScenePath.length - 1) {
+            delete scene.id;
+        }
+    });
+
     // Construct the prompt dynamically
     let prompt = `
 ${basePrompt}
 
 Current Scene Path:
-${JSON.stringify(scenePath, null, 2)}
-
-Selected Action:
-${JSON.stringify(action, null, 2)}
+${JSON.stringify(parsedScenePath, null, 2)}
 
 Generate the next scene:
 `.trim();
@@ -66,6 +97,7 @@ Generate the next scene:
     if (editorStore.state.extraPrompt) {
         prompt += "\n\nTietoa tarinasta: " + editorStore.state.extraPrompt;
     }
+    console.log("Prompt:", prompt);
     try {
         // Call OpenAI Chat Completions API
         const promptData = {

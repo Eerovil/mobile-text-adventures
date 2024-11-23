@@ -137,5 +137,8 @@ export const useEditorStore = defineStore('editor', () => {
         moveDraggableElement,
         setActionPositions,
         createEvolution,
+        setExtraPrompt: (extraPrompt: string) => {
+            state.value.extraPrompt = extraPrompt
+        }
     }
 });

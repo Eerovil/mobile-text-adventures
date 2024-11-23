@@ -218,6 +218,9 @@ export const useGameStore = defineStore('game', () => {
     if (!gameState.value.currentScene) {
       gameState.value.currentScene = newScene.id
     }
+    if (!state.value.initialScene) {
+      state.value.initialScene = newScene.id
+    }
     return newScene
   }
 
@@ -349,17 +352,28 @@ export const useGameStore = defineStore('game', () => {
     // Try find 5 scenes by going reversely random actions
     // to fromSceneId
     const scenePath: Scene[] = []
-    let currentSceneId = fromSceneId
-    for (let i = 0; i < 5; i++) {
+    const usedIDs = new Set<SceneId>()
+    let currentSceneId: SceneId | undefined = fromSceneId
+    for (let i = 0; i < 50; i++) {
+      if (!currentSceneId) {
+        break
+      }
       const scene = getSceneById(currentSceneId)
       if (!scene) {
         break
       }
       scenePath.unshift(scene)
+      usedIDs.add(scene.id)
       // Find a scene that has an action that leads to the current scene
+      const oldCurrentSceneId = currentSceneId
+      currentSceneId = undefined
       for (const otherScene of Object.values(state.value.scenes)) {
-        for (const action of otherScene.actions) {
-          if (action.nextScene === currentSceneId) {
+        if (usedIDs.has(otherScene.id)) {
+          continue
+        }
+        const actionsInRandomOrder = [...otherScene.actions].sort(() => Math.random() - 0.5)
+        for (const action of actionsInRandomOrder) {
+          if (action.nextScene === oldCurrentSceneId) {
             currentSceneId = otherScene.id
             break
           }

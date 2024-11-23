@@ -139,6 +139,13 @@ const initialSceneId = computed({
   },
 })
 
+const extraPrompt = computed({
+  get: () => editorStore.state.extraPrompt,
+  set: (value) => {
+    editorStore.setExtraPrompt(value);
+  },
+})
+
 </script>
 
 <template>
@@ -163,6 +170,8 @@ const initialSceneId = computed({
         <label :for="`progression-${progression}`">{{ progression }}</label>
       </div>
     </div>
+    <h2>Plot description</h2>
+    <textarea v-model="extraPrompt" />
   </div>
 </template>
 
