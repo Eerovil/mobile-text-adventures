@@ -556,7 +556,7 @@
       "actions": [
         {
           "title": "Palaa takaisin",
-          "nextScene": "3twoc9yj2"
+          "nextScene": "m6exmue4x"
         }
       ],
       "evolutions": {
@@ -666,6 +666,17 @@
         {
           "title": "Jatka",
           "nextScene": "wbl6vso2x"
+        }
+      ],
+      "evolutions": {}
+    },
+    "m6exmue4x": {
+      "id": "m6exmue4x",
+      "text": "Mietit itseksesi: -minun tulee keksiä, mitä voisin antaa kanille vastineeksi.",
+      "actions": [
+        {
+          "title": "Jatka",
+          "nextScene": "3twoc9yj2"
         }
       ],
       "evolutions": {}
