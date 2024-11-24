@@ -38,24 +38,21 @@ const nextCharacter = () => {
     }, CHARACTER_DELAY);
 }
 
+const splitChars = ['\\.', '\\:', '\\?', '!']; // Escape special characters for RegExp
+
+function processText(text: string) {
+    // Use a regex to split, capturing split characters and any directly connected characters
+    const regex = new RegExp(`(.*?[${splitChars.join('')}]+[\\s"']*)`, 'g');
+
+    // Split and filter non-empty lines
+    const textLines = text.match(regex) || []; // Match to ensure it captures correctly
+
+    // Trim and filter out empty lines
+    return textLines.map(line => line.trim()).filter(line => line !== '');
+}
+
 const startShowingText = (text: string) => {
-    const splitChars = ['\\.', '\\?', '!']; // Escape special characters like '.' for RegExp
-    // If the whole text doesn't env with any of splitChars, add a '.' to the end
-    if (!['.', '?', '!'].some((char) => (text.trim()).endsWith(char))) {
-        text += '.';
-    }
-    textLines.value = text
-        .split(new RegExp(`(${splitChars.join('|')})`)) // Use capturing group to include split chars
-        .reduce((acc: string[], curr, index) => {
-            // Combine the split char with the preceding text
-            if (index % 2 === 0) {
-                acc.push(curr);
-            } else {
-                acc[acc.length - 1] += curr;
-            }
-            return acc;
-        }, [])
-        .filter((line) => line.trim() !== '');
+    textLines.value = processText(text);
     currentLine.value = 0;
     currentChar.value = 0;
     nextCharacter();
