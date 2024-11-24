@@ -292,6 +292,9 @@ export const useGameStore = defineStore('game', () => {
           progressions.add(action.gameProgression)
         }
       }
+      for (const evolution in scene.evolutions) {
+        progressions.add(evolution as GameProgressionSlug)
+      }
     }
     return Array.from(progressions)
   });
@@ -304,17 +307,26 @@ export const useGameStore = defineStore('game', () => {
     if (!gameState.value.progressions.includes(progression)) {
       gameState.value.progressions.push(progression)
       // Set current scene to the nextScene of the action that causes the progression
+      let found = false;
       for (const scene of Object.values(state.value.scenes)) {
+        if (found) {
+          break;
+        }
         for (const action of scene.actions) {
           if (action.gameProgression === progression) {
             if (action.nextScene) {
               gameState.value.currentScene = action.nextScene
-              return
+              found = true;
+              break;
             }
           }
         }
       }
     }
+    // Redraw connections
+    setTimeout(() => {
+      connectionStore.redrawAllConnections();
+    }, 100);
   }
 
   const removeProgression = (progression: GameProgressionSlug) => {
@@ -325,6 +337,10 @@ export const useGameStore = defineStore('game', () => {
     if (index !== -1) {
       gameState.value.progressions.splice(index, 1)
     }
+    // Redraw connections
+    setTimeout(() => {
+      connectionStore.redrawAllConnections();
+    }, 100);
   }
 
   const editorStore = useEditorStore();
@@ -339,7 +355,7 @@ export const useGameStore = defineStore('game', () => {
       title: scene.title,
       text: scene.text,
       text2: scene.text2,
-      actions: scene.actions,
+      actions: [...scene.actions],
       evolutions: {}
     }
     state.value.scenes[newScene.id] = newScene
@@ -348,7 +364,7 @@ export const useGameStore = defineStore('game', () => {
     return newScene
   }
 
-  const generateScene = async ({ fromSceneId, actionIndex, toSceneId }: { fromSceneId: SceneId, actionIndex: number, toSceneId: SceneId }) => {
+  const generateScene = async ({ fromSceneId, actionIndex, toSceneId }: { fromSceneId: SceneId, actionIndex: number, toSceneId: SceneId }, extraPrompt: string) => {
     // Try find 5 scenes by going reversely random actions
     // to fromSceneId
     const scenePath: Scene[] = []
@@ -384,7 +400,7 @@ export const useGameStore = defineStore('game', () => {
     if (!action) {
       throw new Error('Action not found')
     }
-    const generatedData = await aiGenerateScene(scenePath, action)
+    const generatedData = await aiGenerateScene(scenePath, action, extraPrompt);
     if (generatedData) {
       console.log('generatedData', generatedData)
       const toScene = getSceneById(toSceneId)

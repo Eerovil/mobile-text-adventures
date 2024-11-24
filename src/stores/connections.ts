@@ -127,6 +127,7 @@ export const useConnectionStore = defineStore('connections', () => {
             delete state.value.connections[key as ConnectionId]
         }
         for (const scene of gameStore.allCurrentScenes) {
+            console.log('Redrawing connections for scene', scene.id);
             for (const actionIndex in scene.actions) {
                 const action = scene.actions[actionIndex]
                 if (action.nextScene) {

@@ -125,8 +125,14 @@ export const useEditorStore = defineStore('editor', () => {
     }
 
     const createEvolution = (sceneId: SceneId, newSceneId: SceneId) => {
-        const scene = { ...state.value.scenes[sceneId], id: newSceneId }
-        state.value.scenes[newSceneId] = scene;
+        const oldScene = state.value.scenes[sceneId]
+        const newScene: EditorScene = {
+            id: newSceneId,
+            x: oldScene.x,
+            y: oldScene.y,
+            actionPositions: oldScene.actionPositions ? [...oldScene.actionPositions] : [],
+        }
+        state.value.scenes[newSceneId] = newScene;
     }
 
     return {

@@ -2,18 +2,651 @@
   "scenes": {
     "u03kqvsvo": {
       "id": "u03kqvsvo",
-      "title": "Sänky",
-      "text": "Heräät sängystäsi",
+      "title": "",
+      "text": "Hei! Herää!",
       "actions": [
         {
-          "title": "Jatka unia"
+          "title": "Jatka unia",
+          "nextScene": "cr0kgmsvj"
         },
         {
-          "title": "Nouse sängystä"
+          "title": "Avaa silmät",
+          "nextScene": "2jju5lgpf"
         }
       ],
       "evolutions": {},
-      "text2": "Olet sängyssä"
+      "text2": ""
+    },
+    "cr0kgmsvj": {
+      "id": "cr0kgmsvj",
+      "text": "Jatkat unia. Joku koputtaa ikkunaan.",
+      "actions": [
+        {
+          "title": "Nouse sängystä",
+          "nextScene": "2jju5lgpf"
+        }
+      ],
+      "evolutions": {},
+      "text2": ""
+    },
+    "2jju5lgpf": {
+      "id": "2jju5lgpf",
+      "text": "Ikkunassa on jokin olento. Se näyttää hätääntyneeltä.",
+      "actions": [
+        {
+          "title": "Avaa ikkuna",
+          "nextScene": "cglabxayy"
+        }
+      ],
+      "evolutions": {}
+    },
+    "cglabxayy": {
+      "id": "cglabxayy",
+      "text": "Kun avaat ikkunan, olento lentää sisälle mökkiin. -Tarvitsemme apuasi, se sanoo.",
+      "actions": [
+        {
+          "title": "Mistä oikein puhut?",
+          "nextScene": "aukzjvcq1"
+        },
+        {
+          "title": "Kuka olet?",
+          "nextScene": "vb2sob34u"
+        }
+      ],
+      "evolutions": {},
+      "text2": ""
+    },
+    "vb2sob34u": {
+      "id": "vb2sob34u",
+      "text": "Olen Valokki, metsän keiju, se vastaa.",
+      "actions": [
+        {
+          "title": "Mikä hätänä?",
+          "nextScene": "aukzjvcq1"
+        },
+        {
+          "title": "Huomenta",
+          "nextScene": "ikrwp9u8y"
+        }
+      ],
+      "evolutions": {},
+      "text2": ""
+    },
+    "ikrwp9u8y": {
+      "id": "ikrwp9u8y",
+      "text": "Huomenta, huomenta. Nyt asiaan!",
+      "actions": [
+        {
+          "title": "Mikä hätänä?",
+          "nextScene": "aukzjvcq1"
+        }
+      ],
+      "evolutions": {},
+      "text2": ""
+    },
+    "aukzjvcq1": {
+      "id": "aukzjvcq1",
+      "text": "Lumottu Jalokivi! Se on kadonnut!",
+      "actions": [
+        {
+          "title": "Kysy lisää Jalokivestä",
+          "nextScene": "tft6wt2xz"
+        },
+        {
+          "title": "Mitä voin tehdä?",
+          "nextScene": "xpx611btb"
+        }
+      ],
+      "evolutions": {},
+      "text2": ""
+    },
+    "tft6wt2xz": {
+      "id": "tft6wt2xz",
+      "text": "Jalokivi on voimakas maaginen esine. Se pitää metsän elinvoimaisena. Valokki kertoo, että pimeys on saapumassa.",
+      "actions": [
+        {
+          "title": "Mitä voin tehdä?",
+          "nextScene": "xpx611btb"
+        }
+      ],
+      "evolutions": {},
+      "text2": ""
+    },
+    "xpx611btb": {
+      "id": "xpx611btb",
+      "text": "Sinun täytyy mennä metsään. Siellä voi olla vihjeitä.",
+      "actions": [
+        {
+          "title": "Mene ulos",
+          "nextScene": "1wm73d3f1"
+        },
+        {
+          "title": "Katso kaappiin",
+          "nextScene": "aw55gn5a0"
+        }
+      ],
+      "evolutions": {},
+      "text2": "Olet mökissäsi."
+    },
+    "1wm73d3f1": {
+      "id": "1wm73d3f1",
+      "text": "Astut ovesta ulos. Tunnet henkäyksen pimeydestä, jota ei ole ennen ollut.",
+      "actions": [
+        {
+          "title": "Mene puuliiteriin",
+          "nextScene": "x62rzw15o"
+        },
+        {
+          "title": "Palaa takaisin",
+          "nextScene": "xpx611btb"
+        },
+        {
+          "title": "Mene polulle",
+          "nextScene": "on2j1c4tv"
+        }
+      ],
+      "evolutions": {},
+      "text2": "Olet mökin ulkopuolella."
+    },
+    "x62rzw15o": {
+      "id": "x62rzw15o",
+      "text": "Menet puuliiteriin. Tuoksuu puulta ja vanhalta tavaralta.",
+      "actions": [
+        {
+          "title": "Poistu",
+          "nextScene": "1wm73d3f1"
+        }
+      ],
+      "evolutions": {},
+      "text2": ""
+    },
+    "aw55gn5a0": {
+      "id": "aw55gn5a0",
+      "text": "Kaapissa on tavaroita.",
+      "actions": [
+        {
+          "title": "Poistu",
+          "nextScene": "xpx611btb",
+          "gameProgression": ""
+        },
+        {
+          "title": "Ota sakset",
+          "nextScene": "eqn2xmj5l",
+          "gameProgression": "sakset"
+        }
+      ],
+      "evolutions": {
+        "sakset": "n5chr88jq"
+      },
+      "text2": ""
+    },
+    "eqn2xmj5l": {
+      "id": "eqn2xmj5l",
+      "text": "Otat sakset ja sujautat ne takkisi taskuun.",
+      "actions": [
+        {
+          "title": "OK",
+          "nextScene": "aw55gn5a0"
+        }
+      ],
+      "evolutions": {},
+      "text2": ""
+    },
+    "n5chr88jq": {
+      "id": "n5chr88jq",
+      "text": "Kaapissa on vielä purkki.",
+      "text2": "",
+      "actions": [
+        {
+          "title": "Poistu",
+          "nextScene": "xpx611btb",
+          "gameProgression": ""
+        },
+        {
+          "title": "Ota purkki",
+          "nextScene": "lioiguam5",
+          "gameProgression": "purkki"
+        }
+      ],
+      "evolutions": {
+        "purkki": "xvwlz46mf"
+      }
+    },
+    "lioiguam5": {
+      "id": "lioiguam5",
+      "text": "Otat tyhjän purkin ja laitat sen takkisi taskuun.",
+      "actions": [
+        {
+          "title": "OK",
+          "nextScene": "n5chr88jq"
+        }
+      ],
+      "evolutions": {},
+      "text2": ""
+    },
+    "xvwlz46mf": {
+      "id": "xvwlz46mf",
+      "text": "Kaapissa ei ole enää mitään mitä voisit ottaa mukaan.",
+      "text2": "",
+      "actions": [
+        {
+          "title": "Poistu",
+          "nextScene": "xpx611btb",
+          "gameProgression": ""
+        }
+      ],
+      "evolutions": {}
+    },
+    "on2j1c4tv": {
+      "id": "on2j1c4tv",
+      "text": "Polku vie syvemmälle metsään. Matkalla tapaat oravan, joka jää katsomaan sinua.",
+      "actions": [
+        {
+          "title": "Palaa takaisin",
+          "nextScene": "1wm73d3f1"
+        },
+        {
+          "title": "Tervehdi oravaa.",
+          "nextScene": "lkndr8x1l"
+        },
+        {
+          "title": "Jatka polkua",
+          "nextScene": "3utbmpg51"
+        }
+      ],
+      "evolutions": {},
+      "text2": "Olet polulla. Lähelläsi on orava."
+    },
+    "lkndr8x1l": {
+      "id": "lkndr8x1l",
+      "title": "",
+      "text": "Orava katsoo sinua uteliaasti, pää kallellaan. Sitten se sanoo, terve!",
+      "actions": [
+        {
+          "title": "Palaa takaisin",
+          "nextScene": "on2j1c4tv"
+        },
+        {
+          "title": "Osaat puhua?",
+          "nextScene": "xjo36vfnc"
+        }
+      ],
+      "evolutions": {
+        "kartta": "y9de8tfet"
+      },
+      "text2": ""
+    },
+    "xjo36vfnc": {
+      "id": "xjo36vfnc",
+      "text": "Orava nyökkää hiljaa: kyllä, osaan. Haluatko ostaa jotain kaupastani?",
+      "actions": [
+        {
+          "title": "Minulla ei ole rahaa.",
+          "nextScene": "760hbd4v4",
+          "gameProgression": ""
+        },
+        {
+          "title": "Palaa polulle",
+          "nextScene": "on2j1c4tv"
+        }
+      ],
+      "evolutions": {}
+    },
+    "760hbd4v4": {
+      "id": "760hbd4v4",
+      "text": "Orava naurahtaa: Sitten saat tämän ilmaiseksi!",
+      "actions": [
+        {
+          "title": "Ota kartta",
+          "nextScene": "hz48hgyyp",
+          "gameProgression": "kartta"
+        }
+      ],
+      "evolutions": {},
+      "text2": ""
+    },
+    "hz48hgyyp": {
+      "id": "hz48hgyyp",
+      "text": "Saat haltuusi kartan. Sen viivat näyttävät elävän.",
+      "actions": [
+        {
+          "title": "Kiitä oravaa",
+          "nextScene": "w9tuui5dd"
+        }
+      ],
+      "evolutions": {},
+      "text2": ""
+    },
+    "w9tuui5dd": {
+      "id": "w9tuui5dd",
+      "text": "Orava hymyilee: Olet tervetullut aina!",
+      "actions": [
+        {
+          "title": "Palaa polulle",
+          "nextScene": "on2j1c4tv"
+        },
+        {
+          "title": "Tutki karttaa",
+          "nextScene": "ug7t0u6z7"
+        }
+      ],
+      "evolutions": {},
+      "text2": ""
+    },
+    "ug7t0u6z7": {
+      "id": "ug7t0u6z7",
+      "text": "Kartan keskellä on aukio, jossa lukee jotain. Lumottu Jalokivi. Siellä sitä varmaan pidettiin!",
+      "actions": [
+        {
+          "title": "Palaa polulle",
+          "nextScene": "on2j1c4tv"
+        }
+      ],
+      "evolutions": {},
+      "text2": ""
+    },
+    "y9de8tfet": {
+      "id": "y9de8tfet",
+      "title": "",
+      "text": "Oli ilo asioida kanssasi, orava sanoo. Toivottavasti kartasta on hyötyä.",
+      "text2": "",
+      "actions": [
+        {
+          "title": "Palaa takaisin",
+          "nextScene": "on2j1c4tv"
+        }
+      ],
+      "evolutions": {}
+    },
+    "3utbmpg51": {
+      "id": "3utbmpg51",
+      "text": "Edessä on monta polkua.",
+      "actions": [
+        {
+          "title": "Valitse jokin poluista",
+          "nextScene": "3njm83wsm"
+        },
+        {
+          "title": "Palaa takaisin",
+          "nextScene": "on2j1c4tv"
+        }
+      ],
+      "evolutions": {
+        "kartta": "lsciyr982"
+      },
+      "text2": ""
+    },
+    "3njm83wsm": {
+      "id": "3njm83wsm",
+      "text": "Olet eksynyt satumetsään. Puiden lomassa ei näy enää selkeää polkua.",
+      "actions": [
+        {
+          "title": "Huuda apua",
+          "nextScene": "i98ojalzp"
+        }
+      ],
+      "evolutions": {},
+      "text2": ""
+    },
+    "i98ojalzp": {
+      "id": "i98ojalzp",
+      "text": "Keiju Valokki leijuu luoksesi hymyn kera. Menkäämme mökillesi, hän ehdottaa.",
+      "actions": [
+        {
+          "title": "Seuraa Valokkia takaisin mökille.",
+          "nextScene": "1wm73d3f1"
+        }
+      ],
+      "evolutions": {},
+      "text2": ""
+    },
+    "lsciyr982": {
+      "id": "lsciyr982",
+      "text": "Edessä on monta polkua. Kartan avulla tiedät, minne ne vievät",
+      "text2": "",
+      "actions": [
+        {
+          "title": "Mene aukiolle",
+          "nextScene": "3twoc9yj2"
+        },
+        {
+          "title": "Palaa takaisin",
+          "nextScene": "on2j1c4tv"
+        },
+        {
+          "title": "Mene yrttiniitylle",
+          "nextScene": "ldo1fm96d"
+        }
+      ],
+      "evolutions": {}
+    },
+    "3twoc9yj2": {
+      "id": "3twoc9yj2",
+      "text": "Saavut aukiolle. Siinä on suuri kivinen pylväs, ja sen päällä on kolo. Siitä puuttuu Jalokivi.",
+      "actions": [
+        {
+          "title": "Tutki jalustaa",
+          "nextScene": "6tubnqfsx"
+        },
+        {
+          "title": "Palaa poluille",
+          "nextScene": "lsciyr982"
+        }
+      ],
+      "evolutions": {},
+      "text2": "Olet aukiolla, kivisen pylvään luona."
+    },
+    "ldo1fm96d": {
+      "id": "ldo1fm96d",
+      "text": "Saavut yrttiniitylle. Ympärillä kasvaa harvinaisia yrttejä ja kukkia.",
+      "actions": [
+        {
+          "title": "Tutki yrttejä",
+          "nextScene": "4riw1dgns"
+        },
+        {
+          "title": "Palaa poluille",
+          "nextScene": "lsciyr982"
+        }
+      ],
+      "evolutions": {},
+      "text2": ""
+    },
+    "4riw1dgns": {
+      "id": "4riw1dgns",
+      "text": "Huomaat uneliaisuutta aiheuttavan yrtin. Se voi olla hyödyllinen. Mutta et voi kerätä sitä ilman purkkia ja saksia.",
+      "actions": [
+        {
+          "title": "Poistu yrttiniityltä",
+          "nextScene": "ldo1fm96d"
+        }
+      ],
+      "evolutions": {
+        "purkki": "v9jwirars"
+      },
+      "text2": ""
+    },
+    "v9jwirars": {
+      "id": "v9jwirars",
+      "text": "Huomaat uneliaisuutta aiheuttavan yrtin. Se voi olla hyödyllinen.",
+      "text2": "",
+      "actions": [
+        {
+          "title": "Poistu yrttiniityltä",
+          "nextScene": "ldo1fm96d"
+        },
+        {
+          "title": "Kerää yrttiä purkkiin",
+          "nextScene": "f6q2423jm",
+          "gameProgression": "yrtti"
+        }
+      ],
+      "evolutions": {}
+    },
+    "f6q2423jm": {
+      "id": "f6q2423jm",
+      "text": "Leikkaat saksilla yrttejä, ja kohta purkki on täynnä. Yrtit tuoksuvat rauhoittavasti.",
+      "actions": [
+        {
+          "title": "Palaa takaisin",
+          "nextScene": "3utbmpg51"
+        }
+      ],
+      "evolutions": {},
+      "text2": ""
+    },
+    "6tubnqfsx": {
+      "id": "6tubnqfsx",
+      "text": "Jalustalla näet pieniä jalanjälkiä.",
+      "actions": [
+        {
+          "title": "Aseta jalokivi paikalleen",
+          "nextScene": "a99xw6eyc",
+          "gameProgression": ""
+        },
+        {
+          "title": "Palaa aukiolle",
+          "nextScene": "3twoc9yj2"
+        }
+      ],
+      "evolutions": {
+        "jalokivi": "3k34yixpy"
+      }
+    },
+    "5dl43vxqa": {
+      "id": "5dl43vxqa",
+      "text": "Seuraat jalanjälkiä ja löydät kaninkolon. Se vaikuttaa syvältä ja pimeältä.",
+      "actions": [
+        {
+          "title": "Huuda koloon",
+          "nextScene": "rdwos2d7o"
+        },
+        {
+          "title": "Palaa jalustalle",
+          "nextScene": "6tubnqfsx"
+        }
+      ],
+      "evolutions": {}
+    },
+    "rdwos2d7o": {
+      "id": "rdwos2d7o",
+      "text": "Kolosta kuuluu hiljainen ääni: Älä huuda!",
+      "actions": [
+        {
+          "title": "Pyydä anteeksi",
+          "nextScene": "s3lbipooo"
+        }
+      ],
+      "evolutions": {}
+    },
+    "s3lbipooo": {
+      "id": "s3lbipooo",
+      "text": "Kolosta nousee esille kani. Tarkoitatko tätä? Ystäväni pöllö ei saanut unta, koska jalokivi oli niin kirkas. Otin sen pois.",
+      "actions": [
+        {
+          "title": "Mutta se on tärkeä!",
+          "nextScene": "qq8xrd08x"
+        }
+      ],
+      "evolutions": {}
+    },
+    "qq8xrd08x": {
+      "id": "qq8xrd08x",
+      "text": "Haluan auttaa ystävääni, kani sanoo. Jalokivi pysyy kolossa.",
+      "actions": [
+        {
+          "title": "Palaa takaisin",
+          "nextScene": "3twoc9yj2"
+        }
+      ],
+      "evolutions": {
+        "yrtti": "quv24yylf"
+      },
+      "text2": ""
+    },
+    "quv24yylf": {
+      "id": "quv24yylf",
+      "text": "Haluan auttaa ystävääni, kani sanoo. Jalokivi pysyy kolossa.",
+      "text2": "",
+      "actions": [
+        {
+          "title": "Palaa takaisin",
+          "nextScene": "3twoc9yj2"
+        },
+        {
+          "title": "Anna yrtti",
+          "nextScene": "ji29cow8y"
+        }
+      ],
+      "evolutions": {}
+    },
+    "ji29cow8y": {
+      "id": "ji29cow8y",
+      "text": "Ojentaessasi yrtin, kani katsoo epäluuloisesti. Hän haistelee sitä varovasti.",
+      "actions": [
+        {
+          "title": "Yrtti auttaa nukahtamaan",
+          "nextScene": "wbl6vso2x"
+        }
+      ],
+      "evolutions": {}
+    },
+    "wbl6vso2x": {
+      "id": "wbl6vso2x",
+      "text": "Kani ojentaa sinulle jalokiven. -Hyvä on, jospa pöllö ilahtuu tästä lahjasta.",
+      "actions": [
+        {
+          "title": "Ota jalokivi",
+          "nextScene": "6hcng94wv",
+          "gameProgression": "jalokivi"
+        }
+      ],
+      "evolutions": {}
+    },
+    "6hcng94wv": {
+      "id": "6hcng94wv",
+      "text": "Laitat jalokiven takin taskuun. Taskustasi kuuluu hiljainen surina.",
+      "actions": [
+        {
+          "title": "Mene pylvään luo",
+          "nextScene": "3twoc9yj2"
+        }
+      ],
+      "evolutions": {}
+    },
+    "3k34yixpy": {
+      "id": "3k34yixpy",
+      "text": "Jalusta on tyhjillään.",
+      "actions": [
+        {
+          "title": "Aseta jalokivi paikalleen",
+          "nextScene": "a99xw6eyc",
+          "gameProgression": ""
+        },
+        {
+          "title": "Palaa aukiolle",
+          "nextScene": "3twoc9yj2"
+        }
+      ],
+      "evolutions": {}
+    },
+    "a99xw6eyc": {
+      "id": "a99xw6eyc",
+      "text": "Jalokivi hehkuu jalustalla, ja koko aukio täyttyy valosta. Tunnet kuinka pimeys katoaa metsästä.",
+      "actions": [
+        {
+          "title": "Palaa polulle",
+          "nextScene": "0iofg7cap"
+        }
+      ],
+      "evolutions": {}
+    },
+    "0iofg7cap": {
+      "id": "0iofg7cap",
+      "text": "Kun kävelet polulle, Keiju Valokki liitelee luoksesi. Hänellä on ilo kasvoillaan. Onnistuit, hän huudahtaa. Peli on nyt loppu.",
+      "actions": [],
+      "evolutions": {}
     }
-  }
+  },
+  "initialScene": "u03kqvsvo"
 }

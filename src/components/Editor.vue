@@ -59,7 +59,8 @@ onMounted(() => {
     if (connectionsStore.state.connectionInProgress) {
       const connection = connectionsStore.finishConnection(newScene.id);
       if (connection) {
-        gameStore.generateScene(connection);
+        const prompt = window.prompt('Extra prompt for new scene', '');
+        gameStore.generateScene(connection, prompt);
       }
     }
   });

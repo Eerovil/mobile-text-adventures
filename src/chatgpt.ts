@@ -5,12 +5,10 @@ import { useEditorStore } from "./stores/editor";
 const jsonSchema = {
     "type": "object",
     "additionalProperties": false,
-    "required": ["title", "text", "text2", "actions"],
+    "required": ["text", "text2", "actions"],
     "properties": {
         "id": { "type": "string" },
-        "title": { "type": "string" },
         "text": { "type": "string" },
-        "text2": { "type": "string" },
         "actions": {
             "type": "array",
             "items": {
@@ -34,12 +32,12 @@ This action leads to a new scene, which has its own actions.
 Your task is to return the new scene in JSON format.
 
 Scene JSON Schema:
-- "title": Short title of the scene (max 100 chars).
 - "text": Description shown on the first visit (max 100 chars, with sentences ≤ 50 chars).
-- "text2": Optional description shown on revisits (leave blank if unused).
 - "actions": List of actions available in this scene
-- Each action has a "title" (max 30 chars) and "nextScene" (ID of the scene it leads to). Try to include an action that leads back to the previous scene, if applicable.
+- Each action has a "title" (max 30 chars) and "nextScene" (ID of the scene it leads to).
+_ Try to include an action that leads back to the previous scene, if applicable (but only one)
 - Do not include actions that jump to any scene other than the previous scene.
+- Use similar writing style and tone as the provided scenes.
 
 Constraints:
 - JSON output must strictly follow the schema.
@@ -48,7 +46,7 @@ Constraints:
 Given the current scene sequence and the selected action, generate the next scene:
 `;
 
-export const aiGenerateScene = async (scenePath: Scene[], action: Action) => {
+export const aiGenerateScene = async (scenePath: Scene[], action: Action, extraPrompt: string) => {
     const editorStore = useEditorStore();
 
     const parsedScenePath: {
@@ -97,11 +95,16 @@ Generate the next scene:
     if (editorStore.state.extraPrompt) {
         prompt += "\n\nTietoa tarinasta: " + editorStore.state.extraPrompt;
     }
+
+    if (extraPrompt) {
+        prompt += "\n\nLisätietoa seuraavasta scenestä: " + extraPrompt;
+    }
+
     console.log("Prompt:", prompt);
     try {
         // Call OpenAI Chat Completions API
         const promptData = {
-            model: "gpt-4o-mini",
+            model: "gpt-4o",
             messages: [
                 { role: "system", content: basePrompt },
                 { role: "user", content: prompt }
@@ -119,7 +122,11 @@ Generate the next scene:
         console.log("completion", completion);
 
         // Extract and return the new scene from the response
-        const newScene = completion.choices?.[0]?.message?.function_call?.arguments;
+        let newScene = completion.choices?.[0]?.message?.function_call?.arguments;
+        if (!newScene) {
+            newScene = completion.choices?.[0]?.message?.content.replace(/```json|```/g, '').trim();
+        }
+
         if (!newScene) {
             throw new Error("No valid scene generated.");
         }
