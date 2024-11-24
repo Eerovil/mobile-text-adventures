@@ -11,7 +11,7 @@ const currentLine = ref<number>(0);
 const currentChar = ref<number>(0);
 const showActions = ref<boolean>(false);
 
-const CHARACTER_DELAY = 100;
+const CHARACTER_DELAY = 70;
 
 const setShowActions = (value: boolean) => {
     if (value) {

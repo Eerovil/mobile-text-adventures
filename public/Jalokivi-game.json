@@ -500,8 +500,8 @@
       "text": "Jalustalla näet pieniä jalanjälkiä.",
       "actions": [
         {
-          "title": "Aseta jalokivi paikalleen",
-          "nextScene": "a99xw6eyc",
+          "title": "Seuraa jalanjälkiä",
+          "nextScene": "5dl43vxqa",
           "gameProgression": ""
         },
         {
@@ -534,7 +534,7 @@
       "actions": [
         {
           "title": "Pyydä anteeksi",
-          "nextScene": "s3lbipooo"
+          "nextScene": "usvc36p4n"
         }
       ],
       "evolutions": {}
@@ -585,8 +585,8 @@
       "text": "Ojentaessasi yrtin, kani katsoo epäluuloisesti. Hän haistelee sitä varovasti.",
       "actions": [
         {
-          "title": "Yrtti auttaa nukahtamaan",
-          "nextScene": "wbl6vso2x"
+          "title": "Kerro yrtistä",
+          "nextScene": "gbdqyjdyf"
         }
       ],
       "evolutions": {}
@@ -645,6 +645,29 @@
       "id": "0iofg7cap",
       "text": "Kun kävelet polulle, Keiju Valokki liitelee luoksesi. Hänellä on ilo kasvoillaan. Onnistuit, hän huudahtaa. Peli on nyt loppu.",
       "actions": [],
+      "evolutions": {}
+    },
+    "usvc36p4n": {
+      "id": "usvc36p4n",
+      "text": "Anteeksi, mutta etsin jalokiveä, joka joku otti jalustalta.",
+      "actions": [
+        {
+          "title": "Jatka",
+          "nextScene": "s3lbipooo",
+          "gameProgression": ""
+        }
+      ],
+      "evolutions": {}
+    },
+    "gbdqyjdyf": {
+      "id": "gbdqyjdyf",
+      "text": "Kerrot, että yrtti auttaa nukahtamaan.",
+      "actions": [
+        {
+          "title": "Jatka",
+          "nextScene": "wbl6vso2x"
+        }
+      ],
       "evolutions": {}
     }
   },
