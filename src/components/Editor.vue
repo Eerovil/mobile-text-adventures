@@ -59,7 +59,7 @@ onMounted(() => {
     if (connectionsStore.state.connectionInProgress) {
       const connection = connectionsStore.finishConnection(newScene.id);
       if (connection) {
-        const prompt = window.prompt('Extra prompt for new scene', '');
+        const prompt = window.prompt('Extra prompt for new scene', '') || '';
         gameStore.generateScene(connection, prompt);
       }
     }
@@ -143,7 +143,7 @@ const initialSceneId = computed({
 const extraPrompt = computed({
   get: () => editorStore.state.extraPrompt,
   set: (value) => {
-    editorStore.setExtraPrompt(value);
+    editorStore.setExtraPrompt(value || '');
   },
 })
 
